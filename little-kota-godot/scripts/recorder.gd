@@ -38,8 +38,11 @@ func save_recording_to_file() -> void:
 	await get_tree().create_timer(3.0).timeout
 
 	# Send the transcribed text to the chat API
-	if is_instance_valid(chat_api):
-		chat_api.send_chat_request(speech_to_text.last_response)
+	if speech_to_text.last_response != "":
+		if is_instance_valid(chat_api):
+			chat_api.send_chat_request(speech_to_text.last_response)
+	else:
+		printerr("CANT FIND PYTHON SPEECH RECOGNITION SERVER")
 
 func toggle_recording() -> void:
 	# Get updated recording sample

@@ -46,7 +46,7 @@ func send_chat_request(chat_request_text: String) -> void:
 
 	# Build payload
 	var data := {
-		"model": "dolphin-mistral:7b",
+		"model": "gemma3:4b",
 		"messages": chat_history,
 		"stream": false
 	}
