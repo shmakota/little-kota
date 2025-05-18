@@ -19,7 +19,7 @@ func send_chat_request(chat_request_text):
 
 	# Build the JSON data dictionary
 	var data = {
-		"model": "gemma3:4b",
+		"model": "hf.co/mradermacher/L3-Umbral-Mind-RP-v3.0-8B-i1-GGUF:Q4_K_M",
 		"messages": [
 			{
 				"role": "user",
