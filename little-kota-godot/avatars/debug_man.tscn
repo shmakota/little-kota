@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://b83roft3o6umf"]
+
+[ext_resource type="Script" uid="uid://dsu2u41afnhab" path="res://chatting_character.gd" id="1_shuff"]
+[ext_resource type="Resource" uid="uid://dxbemqr53btih" path="res://resources/character_data/debug_character.tres" id="2_scqfw"]
+[ext_resource type="Script" uid="uid://csy1asdddfau2" path="res://scripts/import_controller.gd" id="3_rsaf3"]
+[ext_resource type="Script" uid="uid://d31pvlr7ydyvj" path="res://addons/shared_plugins/nodes/character_state.gd" id="4_x67t7"]
+[ext_resource type="Script" uid="uid://b2t8i3ap4cjx0" path="res://addons/shared_plugins/nodes/health_node.gd" id="5_ekfsf"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_shuff"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ioo17"]
+
+[node name="ChattingCharacter" type="CharacterBody3D"]
+script = ExtResource("1_shuff")
+character_data = ExtResource("2_scqfw")
+
+[node name="StateMachineController" type="Node" parent="."]
+script = ExtResource("3_rsaf3")
+metadata/_custom_type_script = "uid://d3p400dxexd0o"
+
+[node name="CharacterState" type="Node" parent="StateMachineController"]
+script = ExtResource("4_x67t7")
+metadata/_custom_type_script = "uid://d31pvlr7ydyvj"
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("5_ekfsf")
+max_health = 100
+metadata/_custom_type_script = "uid://b2t8i3ap4cjx0"
+
+[node name="Playermodel" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Playermodel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_shuff")
+skeleton = NodePath("../../CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_ioo17")

@@ -1,18 +1,39 @@
 extends Node
 
-@onready var button = $Button
-@onready var file_dialog = $FileDialog
-@onready var model_root = $ModelRoot
-
-func _ready():
-	button.pressed.connect(_on_button_pressed)
-	file_dialog.file_selected.connect(_on_file_selected)
-	file_dialog.filters = ["*.pck ; PCK Files"]
+@export var button : Button
+@export var file_dialog : FileDialog
+@export var model_root : Node3D
 
 func _on_button_pressed():
+	print("pressed")
 	file_dialog.popup_centered()
 
-func _on_file_selected(path: String) -> void:
+func copy_file(src_path: String, dst_path: String) -> bool:
+	var src = FileAccess.open(src_path, FileAccess.READ)
+	if src == null:
+		print("❌ Cannot open source file")
+		return false
+	var dst = FileAccess.open(dst_path, FileAccess.WRITE)
+	if dst == null:
+		print("❌ Cannot open destination file")
+		src.close()
+		return false
+	dst.store_buffer(src.get_buffer(src.get_length()))
+	src.close()
+	dst.close()
+	return true
+
+func load_pck(pck_path: String) -> bool:
+	var success = ProjectSettings.load_resource_pack(pck_path)
+	if success:
+		print("Mounted PCK:", pck_path)
+	else:
+		print("Failed to mount PCK:", pck_path)
+	return success
+
+
+func _on_file_dialog_file_selected(path: String) -> void:
+	print("selected")
 	if path.get_extension().to_lower() != "pck":
 		print("❌ Please select a .pck file")
 		return
@@ -49,26 +70,3 @@ func _on_file_selected(path: String) -> void:
 	var instance = model_resource.instantiate()
 	model_root.add_child(instance)
 	print("✅ Model instanced from PCK")
-
-func copy_file(src_path: String, dst_path: String) -> bool:
-	var src = FileAccess.open(src_path, FileAccess.READ)
-	if src == null:
-		print("❌ Cannot open source file")
-		return false
-	var dst = FileAccess.open(dst_path, FileAccess.WRITE)
-	if dst == null:
-		print("❌ Cannot open destination file")
-		src.close()
-		return false
-	dst.store_buffer(src.get_buffer(src.get_length()))
-	src.close()
-	dst.close()
-	return true
-
-func load_pck(pck_path: String) -> bool:
-	var success = ProjectSettings.load_resource_pack(pck_path)
-	if success:
-		print("Mounted PCK:", pck_path)
-	else:
-		print("Failed to mount PCK:", pck_path)
-	return success
