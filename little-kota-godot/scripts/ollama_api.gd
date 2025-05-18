@@ -1,6 +1,9 @@
 extends Node
 class_name OllamaAPI
 
+signal receieved_response
+var last_response = ""
+
 func send_chat_request(chat_request_text):
 	print("Starting send_chat_request()...")
 
@@ -59,5 +62,7 @@ func _on_request_completed(result, response_code, headers, body):
 	if json.has("message") and json["message"].has("content"):
 		var content = json["message"]["content"]
 		print("Assistant response: %s" % content)
+		last_response = content
+		emit_signal("receieved_response")
 	else:
 		print("Response JSON did not contain expected fields.")

@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://dwgu6kstovqdw"]
+[gd_scene load_steps=8 format=3 uid="uid://dwgu6kstovqdw"]
 
+[ext_resource type="Script" uid="uid://dh420dxdpyv4l" path="res://ui.gd" id="1_aqk2v"]
 [ext_resource type="Material" uid="uid://cs42ljwa01lsx" path="res://materials/debug_floor.tres" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://ex5hhtvxfps5" path="res://scripts/ollama_controller.gd" id="2_tlwt5"]
 [ext_resource type="Script" uid="uid://dpp6yx6nfjbv5" path="res://scripts/ollama_api.gd" id="3_aqk2v"]
@@ -27,13 +28,51 @@ directional_shadow_max_distance = 400.0
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_tlwt5")
 
-[node name="UI" type="Control" parent="."]
+[node name="UI" type="Control" parent="." node_paths=PackedStringArray("ollama_api")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_aqk2v")
+ollama_api = NodePath("../OllamaController/OllamaAPI")
+
+[node name="ResponseLabel" type="RichTextLabel" parent="UI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -572.0
+offset_top = -406.0
+offset_right = 572.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="SendMessage" type="Button" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -91.0
+offset_top = 40.0
+offset_right = 91.0
+offset_bottom = 68.0
+grow_horizontal = 2
+text = "Send Message"
+
+[node name="MessageEdit" type="TextEdit" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -247.0
+offset_top = 4.0
+offset_right = 247.0
+offset_bottom = 36.0
+grow_horizontal = 2
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 size = Vector3(6, 1, 6)
@@ -44,6 +83,9 @@ transform = Transform3D(-3.78552e-08, 0.5, -0.866025, 2.18557e-08, 0.866025, 0.5
 
 [node name="OllamaController" type="Node" parent="."]
 script = ExtResource("2_tlwt5")
+print_on_ready = null
 
 [node name="OllamaAPI" type="Node" parent="OllamaController"]
 script = ExtResource("3_aqk2v")
+
+[connection signal="pressed" from="UI/SendMessage" to="UI" method="_on_send_message_pressed"]
