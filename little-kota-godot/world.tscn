@@ -1,15 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://dwgu6kstovqdw"]
+[gd_scene load_steps=10 format=3 uid="uid://dwgu6kstovqdw"]
 
 [ext_resource type="Script" uid="uid://dh420dxdpyv4l" path="res://ui.gd" id="1_aqk2v"]
 [ext_resource type="Material" uid="uid://cs42ljwa01lsx" path="res://materials/debug_floor.tres" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://ex5hhtvxfps5" path="res://scripts/ollama_controller.gd" id="2_tlwt5"]
 [ext_resource type="Script" uid="uid://dpp6yx6nfjbv5" path="res://scripts/ollama_api.gd" id="3_aqk2v"]
-[ext_resource type="Script" uid="uid://d3p400dxexd0o" path="res://addons/shared_plugins/nodes/state_machine_controller.gd" id="5_036b0"]
-[ext_resource type="Script" uid="uid://dsu2u41afnhab" path="res://chatting_character.gd" id="5_gbfbk"]
-[ext_resource type="Script" uid="uid://d31pvlr7ydyvj" path="res://addons/shared_plugins/nodes/character_state.gd" id="6_dwbse"]
-[ext_resource type="Resource" uid="uid://dxbemqr53btih" path="res://resources/character_data/debug_character.tres" id="6_ioo17"]
-[ext_resource type="Script" uid="uid://b2t8i3ap4cjx0" path="res://addons/shared_plugins/nodes/health_node.gd" id="7_pkg7o"]
 [ext_resource type="Script" uid="uid://csy1asdddfau2" path="res://scripts/import_controller.gd" id="5_036b0"]
+[ext_resource type="PackedScene" uid="uid://b83roft3o6umf" path="res://avatars/debug_man.tscn" id="6_dwbse"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f3sb7"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -23,8 +19,6 @@ background_mode = 2
 sky = SubResource("Sky_fj7yv")
 tonemap_mode = 2
 glow_enabled = true
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ioo17"]
 
 [node name="World" type="Node3D"]
 
@@ -82,8 +76,19 @@ offset_right = 247.0
 offset_bottom = 36.0
 grow_horizontal = 2
 
-[node name="ImportController" type="Node" parent="UI"]
+[node name="ImportController" type="Node" parent="UI" node_paths=PackedStringArray("button", "file_dialog", "model_root")]
 script = ExtResource("5_036b0")
+button = NodePath("Button")
+file_dialog = NodePath("FileDialog")
+model_root = NodePath("ModelRoot")
+
+[node name="FileDialog" type="FileDialog" parent="UI/ImportController"]
+title = "Open a File"
+initial_position = 1
+ok_button_text = "Load"
+file_mode = 0
+access = 1
+filters = PackedStringArray("*.pck ; PCK File")
 
 [node name="Button" type="Button" parent="UI/ImportController"]
 anchors_preset = 6
@@ -98,14 +103,6 @@ offset_bottom = 17.0
 grow_horizontal = 0
 grow_vertical = 2
 text = "Import Model"
-
-[node name="FileDialog" type="FileDialog" parent="UI/ImportController"]
-title = "Open a File"
-initial_position = 1
-ok_button_text = "Load"
-file_mode = 0
-access = 1
-filters = PackedStringArray("*.pck ; PCK File")
 
 [node name="ModelRoot" type="Node3D" parent="UI/ImportController"]
 
@@ -124,29 +121,9 @@ print_on_ready = null
 [node name="OllamaAPI" type="Node" parent="OllamaController"]
 script = ExtResource("3_aqk2v")
 
-[node name="ChattingCharacter" type="CharacterBody3D" parent="."]
+[node name="ChattingCharacter" parent="." instance=ExtResource("6_dwbse")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-script = ExtResource("5_gbfbk")
-character_data = ExtResource("6_ioo17")
-
-[node name="StateMachineController" type="Node" parent="ChattingCharacter" node_paths=PackedStringArray("current_state")]
-script = ExtResource("5_036b0")
-current_state = NodePath("CharacterState")
-metadata/_custom_type_script = "uid://d3p400dxexd0o"
-
-[node name="CharacterState" type="Node" parent="ChattingCharacter/StateMachineController"]
-script = ExtResource("6_dwbse")
-metadata/_custom_type_script = "uid://d31pvlr7ydyvj"
-
-[node name="Health" type="Node" parent="ChattingCharacter"]
-script = ExtResource("7_pkg7o")
-max_health = 100
-metadata/_custom_type_script = "uid://b2t8i3ap4cjx0"
-
-[node name="Playermodel" type="Node3D" parent="ChattingCharacter"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ChattingCharacter"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_ioo17")
 
 [connection signal="pressed" from="UI/SendMessage" to="UI" method="_on_send_message_pressed"]
+[connection signal="file_selected" from="UI/ImportController/FileDialog" to="UI/ImportController" method="_on_file_dialog_file_selected"]
+[connection signal="pressed" from="UI/ImportController/Button" to="UI/ImportController" method="_on_button_pressed"]
