@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dwgu6kstovqdw"]
+[gd_scene load_steps=24 format=3 uid="uid://dwgu6kstovqdw"]
 
 [ext_resource type="Script" uid="uid://dh420dxdpyv4l" path="res://scripts/ui.gd" id="1_aqk2v"]
 [ext_resource type="Material" uid="uid://cs42ljwa01lsx" path="res://materials/debug_floor.tres" id="1_f3sb7"]
@@ -16,6 +16,7 @@
 [ext_resource type="FontVariation" uid="uid://6vmdc8qhv0j7" path="res://styles/ui_font.tres" id="8_2u3nc"]
 [ext_resource type="Script" uid="uid://cckvmwmouatal" path="res://scripts/recorder.gd" id="8_gbfbk"]
 [ext_resource type="Script" uid="uid://bswnrl4rukbc1" path="res://addons/godot-py-elevenlabs/elevenlabs_request_server.gd" id="16_2u3nc"]
+[ext_resource type="Script" uid="uid://vsubxbuhu4bg" path="res://scripts/server_executor.gd" id="17_udxuc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f3sb7"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -144,7 +145,7 @@ theme_override_fonts/font = ExtResource("8_2u3nc")
 theme_override_styles/hover = ExtResource("7_70uel")
 theme_override_styles/pressed = ExtResource("5_ic0uy")
 theme_override_styles/normal = ExtResource("6_2o6r5")
-text = "Import Model"
+text = "Import PCK"
 
 [node name="SettingsLabel" type="RichTextLabel" parent="UI/SettingsPanel"]
 layout_mode = 1
@@ -292,6 +293,9 @@ update_history = true
 script = ExtResource("16_2u3nc")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="ElevenlabsAPI"]
+
+[node name="ServerExecutor" type="Node" parent="."]
+script = ExtResource("17_udxuc")
 
 [connection signal="pressed" from="UI/SendMessage" to="UI" method="_on_send_message_pressed"]
 [connection signal="pressed" from="UI/SettingsPanel/ImportModel" to="ImportController" method="_on_button_pressed"]

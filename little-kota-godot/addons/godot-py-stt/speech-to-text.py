@@ -1,5 +1,6 @@
 import socket
 import speech_recognition as sr
+print("Speech Recognition Server Loaded")
 
 HOST = "127.0.0.1"
 RECEIVE_PORT = 6000

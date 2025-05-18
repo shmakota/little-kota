@@ -7,6 +7,7 @@ import time
 import os
 
 PORT = 6003  # Change this if needed
+print("Elevenlabs Request Server Loaded")
 
 class AudioHandler(BaseHTTPRequestHandler):
     def do_POST(self):
@@ -50,7 +51,7 @@ class AudioHandler(BaseHTTPRequestHandler):
         headers = {
             "Accept": "audio/mpeg",
             "Content-Type": "application/json",
-            "xi-api-key": ""
+            "xi-api-key": "6f78e3972ca802dc33f5ef30dc3190ca"
         }
         data = {
             "text": text_data,

@@ -1,8 +1,5 @@
 extends Node
 
-func _ready():
-	send_text_request("hello this is the soda testing something right now")
-
 func send_text_request(text: String) -> void:
 	var url := "http://localhost:6003/"
 	var json_data := {"text": text}
