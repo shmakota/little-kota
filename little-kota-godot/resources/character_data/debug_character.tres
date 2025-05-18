@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ChattingCharacterData" load_steps=2 format=3 uid="uid://dxbemqr53btih"]
+
+[ext_resource type="Script" uid="uid://drhho16k056ki" path="res://chatting_character_data.gd" id="1_h7t7f"]
+
+[resource]
+script = ExtResource("1_h7t7f")
+character_name = "Debug Man"
+character_description = "This is a character meant for debugging purposes only. They are kind and answer questions truthfully and as professional as possible."
+metadata/_custom_type_script = "uid://drhho16k056ki"
