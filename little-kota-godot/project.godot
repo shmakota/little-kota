@@ -21,6 +21,10 @@ BaseGlobals="*res://addons/shared_plugins/nodes/base_globals.gd"
 BaseEventBus="*res://addons/shared_plugins/nodes/base_event_bus.gd"
 Globals="*res://globals.gd"
 
+[dotnet]
+
+project/assembly_name="little-kota-godot"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/chat_gpt_api/plugin.cfg")
