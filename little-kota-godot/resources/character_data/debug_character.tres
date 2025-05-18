@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ChattingCharacterData" load_steps=2 format=3 uid="uid://dxbemqr53btih"]
 
-[ext_resource type="Script" uid="uid://drhho16k056ki" path="res://chatting_character_data.gd" id="1_h7t7f"]
+[ext_resource type="Script" uid="uid://drhho16k056ki" path="res://scripts/chatting_character_data.gd" id="1_h7t7f"]
 
 [resource]
 script = ExtResource("1_h7t7f")

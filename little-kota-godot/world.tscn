@@ -1,11 +1,20 @@
-[gd_scene load_steps=10 format=3 uid="uid://dwgu6kstovqdw"]
+[gd_scene load_steps=22 format=3 uid="uid://dwgu6kstovqdw"]
 
-[ext_resource type="Script" uid="uid://dh420dxdpyv4l" path="res://ui.gd" id="1_aqk2v"]
+[ext_resource type="Script" uid="uid://dh420dxdpyv4l" path="res://scripts/ui.gd" id="1_aqk2v"]
 [ext_resource type="Material" uid="uid://cs42ljwa01lsx" path="res://materials/debug_floor.tres" id="1_f3sb7"]
-[ext_resource type="Script" uid="uid://ex5hhtvxfps5" path="res://scripts/ollama_controller.gd" id="2_tlwt5"]
+[ext_resource type="StyleBox" uid="uid://cfa0fvpfvpmyr" path="res://styles/button_disabled.tres" id="2_70uel"]
 [ext_resource type="Script" uid="uid://dpp6yx6nfjbv5" path="res://scripts/ollama_api.gd" id="3_aqk2v"]
+[ext_resource type="Script" uid="uid://dhdwv38vr0s53" path="res://scripts/settings_panel.gd" id="3_ioo17"]
+[ext_resource type="StyleBox" uid="uid://bcchga1u10d7f" path="res://styles/panel_background.tres" id="3_wse8f"]
 [ext_resource type="Script" uid="uid://csy1asdddfau2" path="res://scripts/import_controller.gd" id="5_036b0"]
+[ext_resource type="StyleBox" uid="uid://bp6ltq85ixra8" path="res://styles/button_pressed.tres" id="5_ic0uy"]
+[ext_resource type="StyleBox" uid="uid://chbj34rjywven" path="res://styles/button_normal.tres" id="6_2o6r5"]
 [ext_resource type="PackedScene" uid="uid://b83roft3o6umf" path="res://avatars/debug_man.tscn" id="6_dwbse"]
+[ext_resource type="StyleBox" uid="uid://j78dxax7baow" path="res://styles/button_hover.tres" id="7_70uel"]
+[ext_resource type="Script" uid="uid://gx6afguwf45b" path="res://addons/godot-py-stt/speech-to-text.gd" id="7_pkg7o"]
+[ext_resource type="Texture2D" uid="uid://cywhj1yrnt6t1" path="res://textures/mic_off.svg" id="8_2o6r5"]
+[ext_resource type="FontVariation" uid="uid://6vmdc8qhv0j7" path="res://styles/ui_font.tres" id="8_2u3nc"]
+[ext_resource type="Script" uid="uid://cckvmwmouatal" path="res://scripts/recorder.gd" id="8_gbfbk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f3sb7"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -19,6 +28,19 @@ background_mode = 2
 sky = SubResource("Sky_fj7yv")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2o6r5"]
+bg_color = Color(0.114897, 0.114897, 0.114897, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_gbfbk"]
+color = Color(0.196078, 0.196078, 0.196078, 1)
+thickness = 2
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_gbfbk"]
 
 [node name="World" type="Node3D"]
 
@@ -38,7 +60,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_aqk2v")
-ollama_api = NodePath("../OllamaController/OllamaAPI")
+ollama_api = NodePath("../OllamaAPI")
 
 [node name="ResponseLabel" type="RichTextLabel" parent="UI"]
 layout_mode = 1
@@ -47,11 +69,16 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -572.0
+offset_left = -517.0
 offset_top = -406.0
-offset_right = 572.0
+offset_right = 517.0
+offset_bottom = -37.0
 grow_horizontal = 2
 grow_vertical = 0
+focus_mode = 0
+theme_override_fonts/normal_font = ExtResource("8_2u3nc")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SendMessage" type="Button" parent="UI"]
 layout_mode = 1
@@ -59,10 +86,15 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -91.0
-offset_top = 40.0
+offset_top = 54.0
 offset_right = 91.0
-offset_bottom = 68.0
+offset_bottom = 90.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("8_2u3nc")
+theme_override_styles/disabled = ExtResource("2_70uel")
+theme_override_styles/hover = ExtResource("7_70uel")
+theme_override_styles/pressed = ExtResource("5_ic0uy")
+theme_override_styles/normal = ExtResource("6_2o6r5")
 text = "Send Message"
 
 [node name="MessageEdit" type="TextEdit" parent="UI"]
@@ -71,40 +103,121 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -247.0
-offset_top = 4.0
+offset_top = 18.0
 offset_right = 247.0
-offset_bottom = 36.0
+offset_bottom = 50.0
 grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_2o6r5")
 
-[node name="ImportController" type="Node" parent="UI" node_paths=PackedStringArray("button", "file_dialog", "model_root")]
-script = ExtResource("5_036b0")
-button = NodePath("Button")
-file_dialog = NodePath("FileDialog")
-model_root = NodePath("ModelRoot")
-
-[node name="FileDialog" type="FileDialog" parent="UI/ImportController"]
-title = "Open a File"
-initial_position = 1
-ok_button_text = "Load"
-file_mode = 0
-access = 1
-filters = PackedStringArray("*.pck ; PCK File")
-
-[node name="Button" type="Button" parent="UI/ImportController"]
-anchors_preset = 6
-anchor_left = 1.0
+[node name="SettingsPanel" type="Panel" parent="UI" node_paths=PackedStringArray("button")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -177.0
-offset_top = -14.0
-offset_right = -32.0
-offset_bottom = 17.0
-grow_horizontal = 0
+offset_left = -278.0
+offset_top = -199.0
+offset_right = 275.0
+offset_bottom = 123.0
+grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_wse8f")
+script = ExtResource("3_ioo17")
+button = NodePath("../SettingsButton")
+
+[node name="ImportModel" type="Button" parent="UI/SettingsPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -78.5
+offset_top = -93.5
+offset_right = 78.5
+offset_bottom = -54.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_2u3nc")
+theme_override_styles/hover = ExtResource("7_70uel")
+theme_override_styles/pressed = ExtResource("5_ic0uy")
+theme_override_styles/normal = ExtResource("6_2o6r5")
 text = "Import Model"
 
-[node name="ModelRoot" type="Node3D" parent="UI/ImportController"]
+[node name="SettingsLabel" type="RichTextLabel" parent="UI/SettingsPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.018
+anchor_top = 0.025
+anchor_right = 0.896
+anchor_bottom = 0.184
+offset_left = -0.00800037
+offset_top = -0.0500002
+offset_right = -0.176025
+offset_bottom = 0.111996
+focus_mode = 0
+theme_override_fonts/normal_font = ExtResource("8_2u3nc")
+theme_override_font_sizes/normal_font_size = 32
+text = "SETTINGS"
+
+[node name="HSeparator" type="HSeparator" parent="UI/SettingsPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.013
+anchor_top = 0.17
+anchor_right = 1.0
+anchor_bottom = 0.17
+offset_left = -0.0430002
+offset_top = -1.94
+offset_right = -4.0
+offset_bottom = 2.06
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_gbfbk")
+
+[node name="CloseButton" type="Button" parent="UI/SettingsPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -62.5
+offset_top = -42.0
+offset_right = 62.5
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("8_2u3nc")
+theme_override_styles/hover = ExtResource("7_70uel")
+theme_override_styles/pressed = ExtResource("5_ic0uy")
+theme_override_styles/normal = ExtResource("6_2o6r5")
+text = "Close"
+
+[node name="SettingsButton" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 12.0
+offset_right = 86.0
+offset_bottom = 62.0
+theme_override_fonts/font = ExtResource("8_2u3nc")
+theme_override_styles/hover = ExtResource("5_ic0uy")
+theme_override_styles/pressed = ExtResource("7_70uel")
+theme_override_styles/normal = ExtResource("6_2o6r5")
+text = "Settings"
+
+[node name="RecordingIcon" type="TextureRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = -37.0
+offset_right = 39.0
+offset_bottom = -13.0
+grow_vertical = 0
+texture = ExtResource("8_2o6r5")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 size = Vector3(6, 1, 6)
@@ -113,17 +226,46 @@ material = ExtResource("1_f3sb7")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-3.78552e-08, 0.5, -0.866025, 2.18557e-08, 0.866025, 0.5, 1, 0, -4.37114e-08, -5, 3, 0)
 
-[node name="OllamaController" type="Node" parent="."]
-script = ExtResource("2_tlwt5")
-prompt_text = "hello"
-print_on_ready = null
-
-[node name="OllamaAPI" type="Node" parent="OllamaController"]
+[node name="OllamaAPI" type="Node" parent="."]
 script = ExtResource("3_aqk2v")
+
+[node name="ImportController" type="Node" parent="." node_paths=PackedStringArray("button", "file_dialog", "model_root")]
+script = ExtResource("5_036b0")
+button = NodePath("../UI/SettingsPanel/ImportModel")
+file_dialog = NodePath("FileDialog")
+model_root = NodePath("ModelRoot")
+
+[node name="FileDialog" type="FileDialog" parent="ImportController"]
+title = "Open a File"
+initial_position = 1
+ok_button_text = "Load"
+file_mode = 0
+access = 1
+filters = PackedStringArray("*.pck ; PCK File")
+use_native_dialog = true
+
+[node name="ModelRoot" type="Node3D" parent="ImportController"]
+
+[node name="SpeechToText" type="Node3D" parent="." node_paths=PackedStringArray("update_label", "llm_api")]
+script = ExtResource("7_pkg7o")
+file_path = "/home/soda/.local/share/godot/app_userdata/little-kota-godot/player_dialogue.wav"
+update_label = NodePath("../UI/ResponseLabel")
+llm_api = NodePath("../OllamaAPI")
+metadata/_custom_type_script = "uid://gx6afguwf45b"
+
+[node name="Recorder" type="AudioStreamPlayer3D" parent="." node_paths=PackedStringArray("chat_api", "recording_icon")]
+stream = SubResource("AudioStreamMicrophone_gbfbk")
+autoplay = true
+bus = &"Record"
+script = ExtResource("8_gbfbk")
+chat_api = NodePath("../OllamaAPI")
+recording_icon = NodePath("../UI/RecordingIcon")
 
 [node name="ChattingCharacter" parent="." instance=ExtResource("6_dwbse")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [connection signal="pressed" from="UI/SendMessage" to="UI" method="_on_send_message_pressed"]
-[connection signal="file_selected" from="UI/ImportController/FileDialog" to="UI/ImportController" method="_on_file_dialog_file_selected"]
-[connection signal="pressed" from="UI/ImportController/Button" to="UI/ImportController" method="_on_button_pressed"]
+[connection signal="pressed" from="UI/SettingsPanel/ImportModel" to="ImportController" method="_on_button_pressed"]
+[connection signal="pressed" from="UI/SettingsPanel/CloseButton" to="UI/SettingsPanel" method="_on_close_button_pressed"]
+[connection signal="pressed" from="UI/SettingsButton" to="UI/SettingsPanel" method="_on_settings_button_pressed"]
+[connection signal="file_selected" from="ImportController/FileDialog" to="ImportController" method="_on_file_dialog_file_selected"]

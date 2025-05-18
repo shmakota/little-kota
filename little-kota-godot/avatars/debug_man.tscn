@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://b83roft3o6umf"]
 
-[ext_resource type="Script" uid="uid://dsu2u41afnhab" path="res://chatting_character.gd" id="1_shuff"]
+[ext_resource type="Script" uid="uid://dsu2u41afnhab" path="res://scripts/chatting_character.gd" id="1_shuff"]
 [ext_resource type="Resource" uid="uid://dxbemqr53btih" path="res://resources/character_data/debug_character.tres" id="2_scqfw"]
 [ext_resource type="Script" uid="uid://csy1asdddfau2" path="res://scripts/import_controller.gd" id="3_rsaf3"]
 [ext_resource type="Script" uid="uid://d31pvlr7ydyvj" path="res://addons/shared_plugins/nodes/character_state.gd" id="4_x67t7"]
