@@ -1,51 +1,66 @@
 extends Node3D
 class_name SpeechToText
 
-signal recieved
+signal received
 
-var socket = PacketPeerUDP.new()
-var server = UDPServer.new()
-var lastResponse = ""
-@export var filePath = "user://player_dialogue.wav"
+# Dependencies
+@export var file_path: String = "user://player_dialogue.wav"
+@export var update_label: RichTextLabel
+@export var llm_api: OllamaAPI
 
-func _ready():
-	var path = "user://speechtotext.path"
-	if !FileAccess.file_exists(path):
-		var newFile = FileAccess.open(path, FileAccess.WRITE)
-		newFile.store_string("user://speech-to-text.py")
-	
-	# execute python script with godot
-	var output
-	
-	var file = FileAccess.open("user://speechtotext.path", FileAccess.READ)
-	var line = file.get_as_text()
-	
-	print(line)
-	
-	OS.execute("python", [line], [""], false, false)
-	
-	await(get_tree().create_timer(3).timeout)
-	
+# Networking
+var socket: PacketPeerUDP = PacketPeerUDP.new()
+var server: UDPServer = UDPServer.new()
+
+# Internal state
+var last_response: String = ""
+
+func _ready() -> void:
+	# Ensure a path file exists
+	var path: String = "user://speechtotext.path"
+	if not FileAccess.file_exists(path):
+		var new_file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
+		new_file.store_string("user://speech-to-text.py")
+
+	# Read the script path from file
+	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	var python_script_path: String = file.get_as_text().strip_edges()
+	print(python_script_path)
+
+	# Placeholder for executing external Python script
+	# OS.execute("python", [python_script_path], [], false, false)
+
+	# Wait for external service to boot
+	await get_tree().create_timer(3.0).timeout
+
+	# Setup UDP communication
 	socket.set_dest_address("127.0.0.1", 6000)
 	server.listen(6001)
-	
-	#recognize_file()
 
-func recognize_file():
-	socket.put_packet(filePath.to_ascii_buffer())
+func recognize_file() -> void:
+	# Send the file path to the Python service
+	socket.put_packet(BaseGlobals.wav_file_path.to_ascii_buffer())
 
-func _physics_process(delta):
-	# check for response
+func _physics_process(delta: float) -> void:
+	# Check for incoming UDP packets
 	server.poll()
-	if !server.is_listening():
-		print_verbose("waiting for server...")
-	
+
+	if not server.is_listening():
+		print_verbose("Waiting for server...")
+
 	if server.is_connection_available():
 		var peer: PacketPeerUDP = server.take_connection()
-		var packet = peer.get_packet()
-		#print("Accepted peer: %s:%s" % [peer.get_packet_ip(), peer.get_packet_port()])
-		#print("Received data: %s" % [packet.get_string_from_utf8())
-		print(packet.get_string_from_utf8())
-		lastResponse = packet.get_string_from_utf8()
-		
-		%Captions.update_caption("[center]["+lastResponse + "]", 3)
+		var packet: PackedByteArray = peer.get_packet()
+		var received_text: String = packet.get_string_from_utf8()
+		print(received_text)
+
+		last_response = received_text
+		ask_llm_and_display(received_text)
+
+func ask_llm_and_display(text: String) -> void:
+	# Send recognized text to LLM and wait for response
+	print("Sending to LLM: ", text)
+	update_label.text = text
+	llm_api.send_chat_request(text)
+	await(llm_api.received_api_response)
+	update_label.text = llm_api.last_response

@@ -15,11 +15,18 @@ run/main_scene="uid://dwgu6kstovqdw"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[audio]
+
+driver/enable_input=true
+
 [autoload]
 
 BaseGlobals="*res://addons/shared_plugins/nodes/base_globals.gd"
 BaseEventBus="*res://addons/shared_plugins/nodes/base_event_bus.gd"
-Globals="*res://globals.gd"
+
+[display]
+
+window/stretch/mode="canvas_items"
 
 [dotnet]
 
@@ -27,4 +34,4 @@ project/assembly_name="little-kota-godot"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/chat_gpt_api/plugin.cfg")
+enabled=PackedStringArray()
