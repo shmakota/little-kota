@@ -4,6 +4,8 @@ extends Node
 @export var file_dialog : FileDialog
 @export var model_root : Node3D
 
+@export var ollama_api : OllamaAPI
+
 func _on_button_pressed():
 	print("pressed")
 	file_dialog.popup_centered()
@@ -57,7 +59,7 @@ func _on_file_dialog_file_selected(path: String) -> void:
 	print("✅ PCK mounted successfully")
 
 	# Now load a known model path inside the PCK
-	var model_path = "res://models/stone_pack.glb"  # change to your model's path inside PCK
+	var model_path = "res://avatars/" + filename.get_basename() + ".tscn"  # change to your model's path inside PCK
 	var model_resource = ResourceLoader.load(model_path)
 	if model_resource == null:
 		print("❌ Failed to load model from PCK at: ", model_path)
@@ -69,4 +71,14 @@ func _on_file_dialog_file_selected(path: String) -> void:
 
 	var instance = model_resource.instantiate()
 	model_root.add_child(instance)
+	
+	var model_name = instance.character_data.character_name
+	var model_desc = instance.character_data.character_description
+	print("[Loaded Avatar]")
+	print("Name:" + model_name)
+	print("Description:" + model_desc)
+	
+	ollama_api.system_prompt = "[" + model_name + "]: " + model_desc
+	ollama_api.reset_chat_history()
+	
 	print("✅ Model instanced from PCK")

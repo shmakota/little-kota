@@ -18,7 +18,15 @@ signal received_api_response
 	}
 ]
 
-func send_chat_request(chat_request_text: String) -> void:
+func reset_chat_history():
+	chat_history = [
+		{
+			"role": "system",
+			"content": system_prompt
+		}
+	]
+
+func send_chat_request(username : String, chat_request_text: String) -> void:
 	print("Starting send_chat_request()...")
 
 	# Rebuild chat history if history updates are disabled
@@ -34,9 +42,13 @@ func send_chat_request(chat_request_text: String) -> void:
 			}
 		]
 	else:
+		var combined_content = ""
+		if username != "":
+			combined_content += "[" + username + "]: "
+		combined_content += chat_request_text
 		chat_history.append({
 			"role": "user",
-			"content": chat_request_text
+			"content": combined_content
 		})
 
 	# Create and configure HTTPRequest node

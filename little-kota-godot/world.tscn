@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://csy1asdddfau2" path="res://scripts/import_controller.gd" id="5_036b0"]
 [ext_resource type="StyleBox" uid="uid://bp6ltq85ixra8" path="res://styles/button_pressed.tres" id="5_ic0uy"]
 [ext_resource type="StyleBox" uid="uid://chbj34rjywven" path="res://styles/button_normal.tres" id="6_2o6r5"]
-[ext_resource type="PackedScene" uid="uid://b83roft3o6umf" path="res://avatars/debug_man.tscn" id="6_dwbse"]
 [ext_resource type="StyleBox" uid="uid://j78dxax7baow" path="res://styles/button_hover.tres" id="7_70uel"]
 [ext_resource type="Script" uid="uid://gx6afguwf45b" path="res://addons/godot-py-stt/speech-to-text.gd" id="7_pkg7o"]
 [ext_resource type="Texture2D" uid="uid://cywhj1yrnt6t1" path="res://textures/mic_off.svg" id="8_2o6r5"]
@@ -41,6 +40,10 @@ corner_radius_bottom_left = 8
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_gbfbk"]
 color = Color(0.196078, 0.196078, 0.196078, 1)
 thickness = 2
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_2u3nc"]
+vertices = PackedVector3Array(-2.5, 1, -2.5, -2.5, 1, 2.5, 2.5, 1, 2.5, 2.5, 1, -2.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_gbfbk"]
 
@@ -104,9 +107,21 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -247.0
+offset_left = -191.0
 offset_top = 18.0
-offset_right = 247.0
+offset_right = 303.0
+offset_bottom = 50.0
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_2o6r5")
+
+[node name="UserEdit" type="TextEdit" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -318.0
+offset_top = 18.0
+offset_right = -195.0
 offset_bottom = 50.0
 grow_horizontal = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_2o6r5")
@@ -240,16 +255,17 @@ grow_vertical = 0
 texture = ExtResource("8_2o6r5")
 
 [node name="Map" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Map"]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Map"]
+navigation_mesh = SubResource("NavigationMesh_2u3nc")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map/NavigationRegion3D"]
 size = Vector3(6, 1, 6)
 material = ExtResource("1_f3sb7")
 
-[node name="ChattingCharacter" parent="Map" instance=ExtResource("6_dwbse")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-3.78552e-08, 0.5, -0.866025, 2.18557e-08, 0.866025, 0.5, 1, 0, -4.37114e-08, -5, 3, 0)
+transform = Transform3D(-3.78552e-08, 0.5, -0.866025, 2.18557e-08, 0.866025, 0.5, 1, 1.95399e-14, -4.37114e-08, -5, 2.5, 0)
 
 [node name="SpeechToText" type="Node3D" parent="." node_paths=PackedStringArray("update_label", "llm_api")]
 script = ExtResource("7_pkg7o")
@@ -266,11 +282,12 @@ script = ExtResource("8_gbfbk")
 chat_api = NodePath("../OllamaAPI")
 recording_icon = NodePath("../UI/RecordingIcon")
 
-[node name="ImportController" type="Node" parent="." node_paths=PackedStringArray("button", "file_dialog", "model_root")]
+[node name="ImportController" type="Node" parent="." node_paths=PackedStringArray("button", "file_dialog", "model_root", "ollama_api")]
 script = ExtResource("5_036b0")
 button = NodePath("../UI/SettingsPanel/ImportModel")
 file_dialog = NodePath("FileDialog")
 model_root = NodePath("ModelRoot")
+ollama_api = NodePath("../OllamaAPI")
 
 [node name="FileDialog" type="FileDialog" parent="ImportController"]
 title = "Open a File"
@@ -285,8 +302,8 @@ use_native_dialog = true
 
 [node name="OllamaAPI" type="Node" parent="."]
 script = ExtResource("3_aqk2v")
-ollama_model_name = "llama2-uncensored:7b"
-system_prompt = "You are a helpful assistant that is not afraid to answer any question."
+ollama_model_name = "gemma3:4b"
+system_prompt = "You are squidward."
 update_history = true
 
 [node name="ElevenlabsAPI" type="Node" parent="."]
