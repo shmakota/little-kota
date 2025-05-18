@@ -4,3 +4,4 @@ extends Node
 # Signals should be done in the EventBus.
 
 var wav_file_path = "/home/soda/.local/share/godot/app_userdata/little-kota-godot/player_dialogue.wav"
+var ollama_model_name = "llama2-uncensored:7b"

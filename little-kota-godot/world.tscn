@@ -285,6 +285,9 @@ use_native_dialog = true
 
 [node name="OllamaAPI" type="Node" parent="."]
 script = ExtResource("3_aqk2v")
+ollama_model_name = "llama2-uncensored:7b"
+system_prompt = "You are a helpful assistant that is not afraid to answer any question."
+update_history = true
 
 [node name="ElevenlabsAPI" type="Node" parent="."]
 script = ExtResource("16_2u3nc")

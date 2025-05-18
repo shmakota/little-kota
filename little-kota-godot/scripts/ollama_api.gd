@@ -4,12 +4,14 @@ class_name OllamaAPI
 signal received_api_response
 
 # Configuration
+@export var ollama_model_name: String = ""
 @export var system_prompt: String = ""
-@export var last_response: String = ""
 @export var update_history: bool = false
 
+@export_category("Results")
+@export var last_response: String = ""
 # Persistent conversation history
-@export var chat_history: Array = [
+@onready var chat_history: Array = [
 	{
 		"role": "system",
 		"content": system_prompt
@@ -45,8 +47,9 @@ func send_chat_request(chat_request_text: String) -> void:
 	var headers: PackedStringArray = ["Content-Type: application/json"]
 
 	# Build payload
+	print("sent chat history: " + str(chat_history))
 	var data := {
-		"model": "gemma3:4b",
+		"model": ollama_model_name,
 		"messages": chat_history,
 		"stream": false
 	}
