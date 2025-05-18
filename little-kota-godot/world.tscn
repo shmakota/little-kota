@@ -1,5 +1,10 @@
+<<<<<<< Updated upstream
 [gd_scene load_steps=5 format=3 uid="uid://dwgu6kstovqdw"]
+=======
+[gd_scene load_steps=8 format=3 uid="uid://dwgu6kstovqdw"]
+>>>>>>> Stashed changes
 
+[ext_resource type="Script" uid="uid://7a3d2hf3rnxe" path="res://scripts/ui_controller.gd" id="1_aqk2v"]
 [ext_resource type="Material" uid="uid://cs42ljwa01lsx" path="res://materials/debug_floor.tres" id="1_f3sb7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f3sb7"]
@@ -25,11 +30,55 @@ directional_shadow_max_distance = 400.0
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_tlwt5")
 
-[node name="UI" type="Control" parent="."]
+[node name="UI" type="Control" parent="." node_paths=PackedStringArray("ollama_controller")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_aqk2v")
+ollama_controller = NodePath("../OllamaController/OllamaAPI")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -566.0
+offset_top = -156.0
+offset_right = 566.0
+offset_bottom = 315.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SendMessage" type="Button" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -109.0
+offset_top = 89.0
+offset_right = 109.0
+offset_bottom = 133.0
+grow_horizontal = 2
+text = "Send Message"
+
+[node name="MessageEdit" type="TextEdit" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -286.0
+offset_right = 190.0
+offset_bottom = -248.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -39,3 +88,16 @@ material = ExtResource("1_f3sb7")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-3.78552e-08, 0.5, -0.866025, 2.18557e-08, 0.866025, 0.5, 1, 0, -4.37114e-08, -5, 3, 0)
+<<<<<<< Updated upstream
+=======
+
+[node name="OllamaController" type="Node" parent="."]
+script = ExtResource("2_tlwt5")
+prompt_text = null
+send_on_ready = null
+
+[node name="OllamaAPI" type="Node" parent="OllamaController"]
+script = ExtResource("3_aqk2v")
+
+[connection signal="pressed" from="UI/SendMessage" to="UI" method="_on_send_message_pressed"]
+>>>>>>> Stashed changes
