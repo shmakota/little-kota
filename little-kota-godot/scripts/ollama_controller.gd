@@ -3,6 +3,7 @@ extends Node
 class_name OllamaController
 
 @export var prompt_text = "why is the sky blue? one sentence"
+@export var print_on_ready = true
 
 func _ready():
 	if !find_child("OllamaAPI"):
@@ -10,4 +11,5 @@ func _ready():
 		ollama_api.name = "OllamaAPI"
 		add_child(ollama_api)
 	
-	find_child("OllamaAPI").send_chat_request(prompt_text)
+	if print_on_ready:
+		find_child("OllamaAPI").send_chat_request(prompt_text)
