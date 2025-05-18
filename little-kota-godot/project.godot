@@ -13,3 +13,8 @@ config_version=5
 config/name="little-kota-godot"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+BaseGlobals="*res://addons/shared_plugins/nodes/base_globals.gd"
+BaseEventBus="*res://addons/shared_plugins/nodes/base_event_bus.gd"
