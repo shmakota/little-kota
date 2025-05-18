@@ -10,3 +10,7 @@ func _on_send_message_pressed() -> void:
 	$SendMessage.text = "Send Message"
 	$SendMessage.disabled = false
 	$ResponseLabel.text = ollama_api.last_response
+
+
+func _on_clear_history_pressed() -> void:
+	ollama_api.reset_chat_history()
