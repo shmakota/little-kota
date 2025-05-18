@@ -1,7 +1,7 @@
 extends Node
 
 func send_text_request(text: String) -> void:
-	var url := "http://localhost:6003/"
+	var url := "http://" + BaseGlobals.server_ip_address + ":6003/"
 	var json_data := {"text": text}
 	var request := HTTPRequest.new()
 	add_child(request)
