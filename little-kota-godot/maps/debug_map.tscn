@@ -16,5 +16,3 @@ navigation_mesh = SubResource("NavigationMesh_2u3nc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 size = Vector3(6, 0.3, 6)
 material = ExtResource("1_yhms4")
-
-[node name="ReflectionProbe" type="ReflectionProbe" parent="NavigationRegion3D"]

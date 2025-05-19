@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dwgu6kstovqdw"]
+[gd_scene load_steps=28 format=3 uid="uid://dwgu6kstovqdw"]
 
 [ext_resource type="Script" uid="uid://dh420dxdpyv4l" path="res://scripts/ui.gd" id="1_aqk2v"]
 [ext_resource type="Texture2D" uid="uid://ceuttd4mxlb55" path="res://textures/belfast_sunset_puresky_2k.exr" id="1_ikiii"]
@@ -16,8 +16,11 @@
 [ext_resource type="FontVariation" uid="uid://6vmdc8qhv0j7" path="res://styles/ui_font.tres" id="8_2u3nc"]
 [ext_resource type="Script" uid="uid://cckvmwmouatal" path="res://scripts/recorder.gd" id="8_gbfbk"]
 [ext_resource type="PackedScene" uid="uid://dssmqqclknldk" path="res://maps/debug_map.tscn" id="12_ikiii"]
+[ext_resource type="Script" uid="uid://d3p400dxexd0o" path="res://addons/shared_plugins/nodes/state_machine_controller.gd" id="13_cbp6q"]
+[ext_resource type="Script" uid="uid://bxdctw0dthkx7" path="res://addons/shared_plugins/nodes/states/moving_camera_state.gd" id="15_bc84e"]
 [ext_resource type="Script" uid="uid://bswnrl4rukbc1" path="res://addons/godot-py-elevenlabs/elevenlabs_request_server.gd" id="16_2u3nc"]
 [ext_resource type="Script" uid="uid://vsubxbuhu4bg" path="res://scripts/server_executor.gd" id="17_udxuc"]
+[ext_resource type="Script" uid="uid://b3o8e77kix4iu" path="res://addons/shared_plugins/nodes/states/idle_camera_state.gd" id="20_26xuy"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cbp6q"]
 panorama = ExtResource("1_ikiii")
@@ -227,7 +230,26 @@ theme_override_fonts/font = ExtResource("8_2u3nc")
 theme_override_styles/hover = ExtResource("7_70uel")
 theme_override_styles/pressed = ExtResource("5_ic0uy")
 theme_override_styles/normal = ExtResource("6_2o6r5")
-text = "Import PCK"
+text = "Import Avatar"
+
+[node name="ImportMap" type="Button" parent="UI/SettingsPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -78.5
+offset_top = 27.0
+offset_right = 78.5
+offset_bottom = 66.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_2u3nc")
+theme_override_styles/hover = ExtResource("7_70uel")
+theme_override_styles/pressed = ExtResource("5_ic0uy")
+theme_override_styles/normal = ExtResource("6_2o6r5")
+text = "Import Map"
 
 [node name="SettingsLabel" type="RichTextLabel" parent="UI/SettingsPanel"]
 layout_mode = 1
@@ -329,6 +351,32 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, -2.18557e-08, -5.85625e-09, 2.18557e-08, 0.866025, 0.5, -5.85619e-09, -0.5, 0.866025, 0, 3.29, 4.923)
 
+[node name="StateMachineController" type="Node" parent="Camera3D" node_paths=PackedStringArray("current_state")]
+script = ExtResource("13_cbp6q")
+current_state = NodePath("OverviewIdle")
+metadata/_custom_type_script = "uid://d3p400dxexd0o"
+
+[node name="OverviewIdle" type="Node" parent="Camera3D/StateMachineController" node_paths=PackedStringArray("idle_position")]
+script = ExtResource("20_26xuy")
+idle_position = NodePath("Marker3D")
+metadata/_custom_type_script = "uid://b3o8e77kix4iu"
+
+[node name="Marker3D" type="Marker3D" parent="Camera3D/StateMachineController/OverviewIdle"]
+transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 3.3, 4.9)
+
+[node name="CloseUpIdle" type="Node" parent="Camera3D/StateMachineController" node_paths=PackedStringArray("idle_position")]
+script = ExtResource("20_26xuy")
+idle_position = NodePath("Marker3D")
+metadata/_custom_type_script = "uid://b3o8e77kix4iu"
+
+[node name="Marker3D" type="Marker3D" parent="Camera3D/StateMachineController/CloseUpIdle"]
+transform = Transform3D(1, 0, 0, 0, 0.996195, 0.0871557, 0, -0.0871557, 0.996195, 0, 1.27591, 3.11762)
+
+[node name="MovingCameraState" type="Node" parent="Camera3D/StateMachineController" node_paths=PackedStringArray("fallback_state")]
+script = ExtResource("15_bc84e")
+fallback_state = NodePath("../OverviewIdle")
+metadata/_custom_type_script = "uid://bxdctw0dthkx7"
+
 [node name="SpeechToText" type="Node3D" parent="." node_paths=PackedStringArray("update_label", "ui", "llm_api")]
 script = ExtResource("7_pkg7o")
 file_path = "/home/soda/.local/share/godot/app_userdata/little-kota-godot/player_dialogue.wav"
@@ -381,6 +429,7 @@ script = ExtResource("17_udxuc")
 [connection signal="pressed" from="UI/SendMessage" to="UI" method="_on_send_message_pressed"]
 [connection signal="pressed" from="UI/ClearHistory" to="UI" method="_on_clear_history_pressed"]
 [connection signal="pressed" from="UI/SettingsPanel/ImportModel" to="ImportController" method="_on_import_model_pressed"]
+[connection signal="pressed" from="UI/SettingsPanel/ImportMap" to="ImportController" method="_on_import_map_pressed"]
 [connection signal="pressed" from="UI/SettingsPanel/CloseButton" to="UI/SettingsPanel" method="_on_close_button_pressed"]
 [connection signal="pressed" from="UI/SettingsButton" to="UI/SettingsPanel" method="_on_settings_button_pressed"]
 [connection signal="file_selected" from="ImportController/FileDialog" to="ImportController" method="_on_file_dialog_file_selected"]

@@ -127,3 +127,7 @@ func load_map_pck(path: String) -> void:
 
 func _on_import_model_pressed() -> void:
 	_on_load_character_pressed()
+
+
+func _on_import_map_pressed() -> void:
+	_on_load_map_pressed()
