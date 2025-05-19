@@ -34,7 +34,7 @@ project/assembly_name="little-kota-godot"
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/shared_plugins/plugin.cfg")
 
 [gui]
 
