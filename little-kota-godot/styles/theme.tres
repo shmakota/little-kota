@@ -1,0 +1,61 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://cq7m8b82el8pt"]
+
+[ext_resource type="FontVariation" uid="uid://6vmdc8qhv0j7" path="res://styles/ui_font.tres" id="1_h48h2"]
+[ext_resource type="StyleBox" uid="uid://bcchga1u10d7f" path="res://styles/panel_background.tres" id="2_cc6xe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2u3nc"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.78, 0.78, 0.78, 0.760784)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_udxuc"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ikiii"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.75, 0.75, 0.75, 0.75)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cbp6q"]
+content_margin_left = 0.0
+content_margin_top = 4.0
+content_margin_right = 0.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[resource]
+Button/fonts/font = ExtResource("1_h48h2")
+HScrollBar/styles/grabber = SubResource("StyleBoxFlat_2u3nc")
+HScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_udxuc")
+HScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_ikiii")
+HScrollBar/styles/scroll = SubResource("StyleBoxFlat_cbp6q")
+Label/fonts/font = ExtResource("1_h48h2")
+Panel/styles/panel = ExtResource("2_cc6xe")

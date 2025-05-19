@@ -9,7 +9,8 @@ var recording: AudioStream
 var save_recording: bool = false
 
 # External dependencies
-@export var chat_api: Node
+@export var ui : Control
+@export var chat_api: OllamaAPI
 @export var recording_icon : TextureRect
 
 func _ready() -> void:
@@ -17,10 +18,6 @@ func _ready() -> void:
 	var record_bus_idx: int = AudioServer.get_bus_index("Record")
 	effect = AudioServer.get_bus_effect(record_bus_idx, 0)
 	recording = effect.get_recording()
-
-	# Get the ChatAPI node if not assigned
-	if chat_api == null:
-		chat_api = get_parent().find_child("ChatAPI")
 
 func _physics_process(delta: float) -> void:
 	# Toggle recording with input
@@ -38,11 +35,11 @@ func save_recording_to_file() -> void:
 	await get_tree().create_timer(3.0).timeout
 
 	# Send the transcribed text to the chat API
-	if speech_to_text.last_response != "":
-		if is_instance_valid(chat_api):
-			chat_api.send_chat_request(speech_to_text.last_response)
-	else:
-		printerr("CANT FIND PYTHON SPEECH RECOGNITION SERVER")
+	#if speech_to_text.last_response != "":
+	#	if is_instance_valid(chat_api):
+	#		chat_api.send_chat_request(ui.get_node("UserEdit").text, speech_to_text.last_response)
+	#else:
+	#	printerr("CANT FIND PYTHON SPEECH RECOGNITION SERVER")
 
 func toggle_recording() -> void:
 	# Get updated recording sample

@@ -7,6 +7,7 @@ signal received_api_response
 @export var ollama_model_name: String = ""
 @export var system_prompt: String = ""
 @export var update_history: bool = false
+@export var busy : bool = false
 
 @export_category("Results")
 @export var last_response: String = ""
@@ -26,34 +27,28 @@ func reset_chat_history():
 		}
 	]
 
-func send_chat_request(username : String, chat_request_text: String) -> void:
-	print("Starting send_chat_request()...")
-
-	# Rebuild chat history if history updates are disabled
-	if not update_history:
-		chat_history = [
-			{
-				"role": "system",
-				"content": system_prompt
-			},
-			{
-				"role": "user",
-				"content": chat_request_text
-			}
-		]
-	else:
-		var combined_content = ""
-		if username != "":
-			combined_content += "[" + username + "]: "
-		combined_content += chat_request_text
-		chat_history.append({
-			"role": "user",
-			"content": combined_content
-		})
-
-	# Create and configure HTTPRequest node
-	var http_request: HTTPRequest = HTTPRequest.new()
+@onready var http_request: HTTPRequest
+func _ready():
+	http_request = HTTPRequest.new()
 	add_child(http_request)
+
+func send_chat_request(username : String, chat_request_text: String) -> void:
+	if busy:
+		printerr("OllamaAPI is already busy with a different request.")
+		return
+	busy = true
+	print("Starting send_chat_request()...")
+	
+	# Rebuild chat history if history updates are disabled
+	print("added combined")
+	var combined_content = ""
+	if username != "":
+		combined_content += "[" + username + "]: "
+	combined_content += chat_request_text
+	chat_history.append({
+		"role": "user",
+		"content": combined_content
+	})
 
 	var url: String = "http://127.0.0.1:11434/api/chat"
 	var headers: PackedStringArray = ["Content-Type: application/json"]
@@ -101,3 +96,4 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 		emit_signal("received_api_response")
 	else:
 		print("Invalid response structure: %s" % response_text)
+	busy = false

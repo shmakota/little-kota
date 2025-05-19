@@ -19,6 +19,7 @@ character_data = ExtResource("2_scqfw")
 [node name="StateMachineController" type="Node" parent="." node_paths=PackedStringArray("current_state")]
 script = ExtResource("3_shuff")
 current_state = NodePath("CharacterState")
+verbose = true
 metadata/_custom_type_script = "uid://d3p400dxexd0o"
 
 [node name="CharacterState" type="Node" parent="StateMachineController"]

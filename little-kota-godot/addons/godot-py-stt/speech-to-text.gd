@@ -6,6 +6,7 @@ signal received
 # Dependencies
 @export var file_path: String = "user://player_dialogue.wav"
 @export var update_label: RichTextLabel
+@export var ui: Control
 @export var llm_api: OllamaAPI
 
 # Networking
@@ -61,6 +62,6 @@ func ask_llm_and_display(text: String) -> void:
 	# Send recognized text to LLM and wait for response
 	print("Sending to LLM: ", text)
 	update_label.text = text
-	llm_api.send_chat_request("", text)
+	llm_api.send_chat_request(ui.get_node("UserEdit").text, text)
 	await(llm_api.received_api_response)
 	update_label.text = llm_api.last_response

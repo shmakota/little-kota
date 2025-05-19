@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dwgu6kstovqdw"]
+[gd_scene load_steps=25 format=3 uid="uid://dwgu6kstovqdw"]
 
 [ext_resource type="Script" uid="uid://dh420dxdpyv4l" path="res://scripts/ui.gd" id="1_aqk2v"]
 [ext_resource type="Material" uid="uid://cs42ljwa01lsx" path="res://materials/debug_floor.tres" id="1_f3sb7"]
@@ -11,6 +11,7 @@
 [ext_resource type="StyleBox" uid="uid://chbj34rjywven" path="res://styles/button_normal.tres" id="6_2o6r5"]
 [ext_resource type="StyleBox" uid="uid://j78dxax7baow" path="res://styles/button_hover.tres" id="7_70uel"]
 [ext_resource type="Script" uid="uid://gx6afguwf45b" path="res://addons/godot-py-stt/speech-to-text.gd" id="7_pkg7o"]
+[ext_resource type="Theme" uid="uid://cq7m8b82el8pt" path="res://styles/theme.tres" id="7_udxuc"]
 [ext_resource type="Texture2D" uid="uid://cywhj1yrnt6t1" path="res://textures/mic_off.svg" id="8_2o6r5"]
 [ext_resource type="FontVariation" uid="uid://6vmdc8qhv0j7" path="res://styles/ui_font.tres" id="8_2u3nc"]
 [ext_resource type="Script" uid="uid://cckvmwmouatal" path="res://scripts/recorder.gd" id="8_gbfbk"]
@@ -75,7 +76,7 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -517.0
-offset_top = -406.0
+offset_top = -324.0
 offset_right = 517.0
 offset_bottom = -37.0
 grow_horizontal = 2
@@ -85,15 +86,34 @@ theme_override_fonts/normal_font = ExtResource("8_2u3nc")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="HistorySize" type="RichTextLabel" parent="UI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 305.0
+offset_top = -611.0
+offset_right = 359.0
+offset_bottom = -566.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+theme_override_fonts/normal_font = ExtResource("8_2u3nc")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="SendMessage" type="Button" parent="UI"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -155.0
-offset_top = 54.0
+offset_top = 78.0
 offset_right = 27.0
-offset_bottom = 90.0
+offset_bottom = 114.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("8_2u3nc")
 theme_override_styles/disabled = ExtResource("2_70uel")
@@ -108,9 +128,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = 31.0
-offset_top = 54.0
+offset_top = 78.0
 offset_right = 123.0
-offset_bottom = 90.0
+offset_bottom = 114.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("8_2u3nc")
 theme_override_styles/disabled = ExtResource("2_70uel")
@@ -125,11 +145,13 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -191.0
-offset_top = 18.0
+offset_top = 42.0
 offset_right = 303.0
-offset_bottom = 50.0
+offset_bottom = 74.0
 grow_horizontal = 2
+theme = ExtResource("7_udxuc")
 theme_override_styles/normal = SubResource("StyleBoxFlat_2o6r5")
+placeholder_text = "Prompt"
 
 [node name="UserEdit" type="TextEdit" parent="UI"]
 layout_mode = 1
@@ -137,11 +159,39 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -318.0
-offset_top = 18.0
+offset_top = 42.0
 offset_right = -195.0
-offset_bottom = 50.0
+offset_bottom = 74.0
 grow_horizontal = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_2o6r5")
+placeholder_text = "Username"
+
+[node name="ModelNameEdit" type="TextEdit" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -318.0
+offset_top = 5.0
+offset_right = -60.0
+offset_bottom = 37.0
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_2o6r5")
+text = "llama2-uncensored:7b"
+placeholder_text = "LLM Model"
+
+[node name="SystemPromptEdit" type="TextEdit" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -55.0
+offset_top = 5.0
+offset_right = 304.0
+offset_bottom = 37.0
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_2o6r5")
+placeholder_text = "System Prompt"
 
 [node name="SettingsPanel" type="Panel" parent="UI" node_paths=PackedStringArray("button")]
 layout_mode = 1
@@ -167,9 +217,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -75.5
+offset_left = -78.5
 offset_top = 74.0
-offset_right = 81.5
+offset_right = 78.5
 offset_bottom = 113.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -284,18 +334,20 @@ material = ExtResource("1_f3sb7")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-3.78552e-08, 0.5, -0.866025, 2.18557e-08, 0.866025, 0.5, 1, 1.95399e-14, -4.37114e-08, -5, 2.5, 0)
 
-[node name="SpeechToText" type="Node3D" parent="." node_paths=PackedStringArray("update_label", "llm_api")]
+[node name="SpeechToText" type="Node3D" parent="." node_paths=PackedStringArray("update_label", "ui", "llm_api")]
 script = ExtResource("7_pkg7o")
 file_path = "/home/soda/.local/share/godot/app_userdata/little-kota-godot/player_dialogue.wav"
 update_label = NodePath("../UI/ResponseLabel")
+ui = NodePath("../UI")
 llm_api = NodePath("../OllamaAPI")
 metadata/_custom_type_script = "uid://gx6afguwf45b"
 
-[node name="Recorder" type="AudioStreamPlayer3D" parent="." node_paths=PackedStringArray("chat_api", "recording_icon")]
+[node name="Recorder" type="AudioStreamPlayer3D" parent="." node_paths=PackedStringArray("ui", "chat_api", "recording_icon")]
 stream = SubResource("AudioStreamMicrophone_gbfbk")
 autoplay = true
 bus = &"Record"
 script = ExtResource("8_gbfbk")
+ui = NodePath("../UI")
 chat_api = NodePath("../OllamaAPI")
 recording_icon = NodePath("../UI/RecordingIcon")
 
@@ -319,8 +371,7 @@ use_native_dialog = true
 
 [node name="OllamaAPI" type="Node" parent="."]
 script = ExtResource("3_aqk2v")
-ollama_model_name = "gemma3:4b"
-system_prompt = "You are squidward."
+ollama_model_name = "llama2-uncensored:7b"
 update_history = true
 
 [node name="ElevenlabsAPI" type="Node" parent="."]
