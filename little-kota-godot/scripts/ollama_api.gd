@@ -8,6 +8,8 @@ signal received_api_response
 @export var system_prompt: String = ""
 @export var update_history: bool = false
 @export var busy : bool = false
+@export var constant_reminder : bool = false
+
 
 @export_category("Results")
 @export var last_response: String = ""
@@ -32,6 +34,9 @@ func _ready():
 	http_request = HTTPRequest.new()
 	add_child(http_request)
 
+enum ModelTemplates {NONE, NEMOTRON}
+var model_temp : ModelTemplates = ModelTemplates.NONE
+
 func send_chat_request(username : String, chat_request_text: String) -> void:
 	if busy:
 		printerr("OllamaAPI is already busy with a different request.")
@@ -42,9 +47,15 @@ func send_chat_request(username : String, chat_request_text: String) -> void:
 	# Rebuild chat history if history updates are disabled
 	print("added combined")
 	var combined_content = ""
-	if username != "":
-		combined_content += "[" + username + "]: "
-	combined_content += chat_request_text
+	#if username != "":
+	#	combined_content += "[" + username + "]: "
+	#combined_content += chat_request_text
+	match model_temp:
+		ModelTemplates.NONE:
+			combined_content += chat_request_text
+		ModelTemplates.NEMOTRON:
+			combined_content += "<extra_id_1>User\n{" +chat_request_text + "}"
+	
 	chat_history.append({
 		"role": "user",
 		"content": combined_content
@@ -52,7 +63,13 @@ func send_chat_request(username : String, chat_request_text: String) -> void:
 
 	var url: String = "http://127.0.0.1:11434/api/chat"
 	var headers: PackedStringArray = ["Content-Type: application/json"]
-
+	
+	if constant_reminder:
+		chat_history.append({
+			"role": "system",
+			"content": system_prompt
+		})
+	
 	# Build payload
 	print("sent chat history: " + str(chat_history))
 	var data := {

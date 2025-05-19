@@ -15,11 +15,15 @@ class AudioHandler(BaseHTTPRequestHandler):
             content_length = int(self.headers.get('Content-Length', 0))
             body = self.rfile.read(content_length)
             data = json.loads(body)
+
             text_data = data.get("text", "")
+            voice_id = data.get("voice_id", "")
             if not text_data:
                 raise ValueError("Missing 'text' field")
+            if not voice_id:
+                raise ValueError("Missing 'voice_id' field")
 
-            file_path = self.save_audio_file(text_data)
+            file_path = self.save_audio_file(text_data, voice_id)
             if not file_path:
                 raise RuntimeError("Audio generation failed")
 
@@ -42,12 +46,11 @@ class AudioHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(error_msg)
 
-
     def log_message(self, format, *args):
         return  # Silence HTTP logs
 
-    def save_audio_file(self, text_data):
-        url = "https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM"
+    def save_audio_file(self, text_data, voice_id):
+        url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
         headers = {
             "Accept": "audio/mpeg",
             "Content-Type": "application/json",

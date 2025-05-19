@@ -3,6 +3,8 @@ extends Node
 @export var button : Button
 @export var file_dialog : FileDialog
 @export var model_root : Node3D
+@export var ui : Control
+
 
 @export var ollama_api : OllamaAPI
 
@@ -77,6 +79,7 @@ func _on_file_dialog_file_selected(path: String) -> void:
 	print("[Loaded Avatar]")
 	print("Name:" + model_name)
 	print("Description:" + model_desc)
+	ui.get_node("SystemPromptEdit").text = model_desc
 	
 	ollama_api.system_prompt = "[" + model_name + "]: " + model_desc
 	ollama_api.reset_chat_history()

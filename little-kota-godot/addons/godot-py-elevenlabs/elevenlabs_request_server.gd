@@ -13,7 +13,10 @@ func forward_api_response():
 
 func send_text_request(text: String) -> void:
 	var url := "http://" + BaseGlobals.server_ip_address + ":6003/"
-	var json_data := {"text": text}
+	var json_data := {
+		"text": text,
+		"voice_id": BaseGlobals.elevenlabs_voice_id
+	}
 	var request := HTTPRequest.new()
 	add_child(request)
 	request.request_completed.connect(_on_request_completed)
@@ -28,7 +31,6 @@ func send_text_request(text: String) -> void:
 	if err != OK:
 		print("Failed to send request:", err)
 
-
 func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	print("Result:", result)
 	print("Response Code:", response_code)
@@ -36,13 +38,11 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 	if response_code == 200:
 		print("Received raw audio data. Size:", body.size())
 
-		# Save audio to file locally
 		var audio_path := "user://temp_audio.ogg"
 		var file := FileAccess.open(audio_path, FileAccess.WRITE)
 		file.store_buffer(body)
 		file.close()
 
-		# Load and play audio
 		var stream := AudioStreamOggVorbis.load_from_file(audio_path)
 		if stream:
 			$AudioStreamPlayer3D.stream = stream
@@ -52,3 +52,4 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 			print("Failed to load audio stream.")
 	else:
 		print("Request failed with code:", response_code)
+		print("Body:", body.get_string_from_utf8())
