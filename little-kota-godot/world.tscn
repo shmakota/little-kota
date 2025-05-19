@@ -28,7 +28,9 @@ sky_material = SubResource("ProceduralSkyMaterial_f3sb7")
 [sub_resource type="Environment" id="Environment_tlwt5"]
 background_mode = 2
 sky = SubResource("Sky_fj7yv")
-tonemap_mode = 2
+tonemap_mode = 3
+ssr_enabled = true
+ssao_enabled = true
 glow_enabled = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2o6r5"]
@@ -51,7 +53,8 @@ polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 [node name="World" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+transform = Transform3D(0.258819, 0.836517, -0.482963, -1.88939e-08, 0.5, 0.866026, 0.965926, -0.224143, 0.129409, 0, 1, 0)
+light_energy = 2.0
 shadow_enabled = true
 directional_shadow_max_distance = 400.0
 
@@ -177,7 +180,7 @@ offset_right = -60.0
 offset_bottom = 37.0
 grow_horizontal = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_2o6r5")
-text = "llama2-uncensored:7b"
+text = "nemotron-mini:4b"
 placeholder_text = "LLM Model"
 
 [node name="SystemPromptEdit" type="TextEdit" parent="UI"]
@@ -328,11 +331,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 navigation_mesh = SubResource("NavigationMesh_2u3nc")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Map/NavigationRegion3D"]
-size = Vector3(6, 1, 6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+size = Vector3(6, 0.3, 6)
 material = ExtResource("1_f3sb7")
 
+[node name="ReflectionProbe" type="ReflectionProbe" parent="Map"]
+
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-3.78552e-08, 0.5, -0.866025, 2.18557e-08, 0.866025, 0.5, 1, 1.95399e-14, -4.37114e-08, -5, 2.5, 0)
+transform = Transform3D(1, -2.18557e-08, -5.85625e-09, 2.18557e-08, 0.866025, 0.5, -5.85619e-09, -0.5, 0.866025, 0, 3.53983, 4.66282)
 
 [node name="SpeechToText" type="Node3D" parent="." node_paths=PackedStringArray("update_label", "ui", "llm_api")]
 script = ExtResource("7_pkg7o")
@@ -351,11 +357,12 @@ ui = NodePath("../UI")
 chat_api = NodePath("../OllamaAPI")
 recording_icon = NodePath("../UI/RecordingIcon")
 
-[node name="ImportController" type="Node" parent="." node_paths=PackedStringArray("button", "file_dialog", "model_root", "ollama_api")]
+[node name="ImportController" type="Node" parent="." node_paths=PackedStringArray("button", "file_dialog", "model_root", "ui", "ollama_api")]
 script = ExtResource("5_036b0")
 button = NodePath("../UI/SettingsPanel/ImportModel")
 file_dialog = NodePath("FileDialog")
 model_root = NodePath("ModelRoot")
+ui = NodePath("../UI")
 ollama_api = NodePath("../OllamaAPI")
 
 [node name="FileDialog" type="FileDialog" parent="ImportController"]
@@ -371,13 +378,11 @@ use_native_dialog = true
 
 [node name="OllamaAPI" type="Node" parent="."]
 script = ExtResource("3_aqk2v")
-ollama_model_name = "llama2-uncensored:7b"
 update_history = true
 
 [node name="ElevenlabsAPI" type="Node" parent="." node_paths=PackedStringArray("ollama_api")]
 script = ExtResource("16_2u3nc")
 ollama_api = NodePath("../OllamaAPI")
-autoforward = true
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="ElevenlabsAPI"]
 

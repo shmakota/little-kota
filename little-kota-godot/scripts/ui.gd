@@ -7,10 +7,10 @@ func _physics_process(delta: float) -> void:
 	$SendMessage.text = "Thinking..." if ollama_api.busy else "Send Message"
 	$SendMessage.disabled = true if ollama_api.busy else false
 	$HistorySize.text = str(ollama_api.chat_history.size())
-	if "\n" in $MessageEdit.text:
-		$ResponseLabel.text = $MessageEdit.text
-		do_think()
-		$MessageEdit.text = ""
+	#if "\n" in $MessageEdit.text:
+	#	$ResponseLabel.text = $MessageEdit.text
+	#	do_think()
+	#	$MessageEdit.text = ""
 
 func do_think():
 	ollama_api.send_chat_request($UserEdit.text, $MessageEdit.text)
