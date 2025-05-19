@@ -23,16 +23,15 @@ class AudioHandler(BaseHTTPRequestHandler):
             if not file_path:
                 raise RuntimeError("Audio generation failed")
 
-            response_data = {"filename": file_path}
-            response_json = json.dumps(response_data).encode()
+            with open(file_path, 'rb') as f:
+                audio_data = f.read()
 
             self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.send_header("Content-Length", str(len(response_json)))
+            self.send_header("Content-Type", "audio/ogg")
+            self.send_header("Content-Length", str(len(audio_data)))
             self.send_header("Access-Control-Allow-Origin", "*")  # optional for Godot Web
             self.end_headers()
-
-            self.wfile.write(response_json)
+            self.wfile.write(audio_data)
 
         except Exception as e:
             error_msg = json.dumps({"error": str(e)}).encode()
@@ -42,6 +41,7 @@ class AudioHandler(BaseHTTPRequestHandler):
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(error_msg)
+
 
     def log_message(self, format, *args):
         return  # Silence HTTP logs
