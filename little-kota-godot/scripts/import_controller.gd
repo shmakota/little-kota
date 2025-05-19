@@ -59,7 +59,7 @@ func _on_file_dialog_file_selected(path: String) -> void:
 	print("✅ PCK mounted successfully")
 
 	# Now load a known model path inside the PCK
-	var model_path = "res://avatars/" + filename.get_basename() + ".tscn"  # change to your model's path inside PCK
+	var model_path = "res://avatars/" + filename.get_basename() + "/" + filename.get_basename() + ".tscn"  # change to your model's path inside PCK
 	var model_resource = ResourceLoader.load(model_path)
 	if model_resource == null:
 		print("❌ Failed to load model from PCK at: ", model_path)

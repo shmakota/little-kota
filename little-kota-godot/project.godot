@@ -35,3 +35,7 @@ project/assembly_name="little-kota-godot"
 [editor_plugins]
 
 enabled=PackedStringArray()
+
+[gui]
+
+theme/custom="uid://cq7m8b82el8pt"
