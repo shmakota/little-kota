@@ -374,8 +374,10 @@ script = ExtResource("3_aqk2v")
 ollama_model_name = "llama2-uncensored:7b"
 update_history = true
 
-[node name="ElevenlabsAPI" type="Node" parent="."]
+[node name="ElevenlabsAPI" type="Node" parent="." node_paths=PackedStringArray("ollama_api")]
 script = ExtResource("16_2u3nc")
+ollama_api = NodePath("../OllamaAPI")
+autoforward = true
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="ElevenlabsAPI"]
 

@@ -1,4 +1,15 @@
 extends Node
+class_name ElevenlabsAPI
+
+@export var ollama_api : OllamaAPI
+@export var autoforward : bool
+
+func _ready() -> void:
+	if autoforward:
+		ollama_api.received_api_response.connect(forward_api_response)
+
+func forward_api_response():
+	send_text_request(ollama_api.last_response)
 
 func send_text_request(text: String) -> void:
 	var url := "http://" + BaseGlobals.server_ip_address + ":6003/"
@@ -19,27 +30,25 @@ func send_text_request(text: String) -> void:
 
 
 func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
-	print(result)
-	print(response_code)
-	print(headers)
-	print(body)
-	if response_code == 200:
-		var json_text = body.get_string_from_utf8()
-		print("Received JSON text:", json_text)
+	print("Result:", result)
+	print("Response Code:", response_code)
 
-		# Godot 4 style JSON parsing
-		var response = JSON.parse_string(json_text)
-		
-		# Check if parsing returned a dictionary
-		if typeof(response) == TYPE_DICTIONARY:
-			if response.has("filename"):
-				print("Audio generated and saved as:", response["filename"])
-				$AudioStreamPlayer3D.stream = load("res://addons/godot-py-elevenlabs/" + response["filename"])
-				$AudioStreamPlayer3D.play()
-				print("attempting play")
-			else:
-				print("JSON response missing 'filename' key")
+	if response_code == 200:
+		print("Received raw audio data. Size:", body.size())
+
+		# Save audio to file locally
+		var audio_path := "user://temp_audio.ogg"
+		var file := FileAccess.open(audio_path, FileAccess.WRITE)
+		file.store_buffer(body)
+		file.close()
+
+		# Load and play audio
+		var stream := AudioStreamOggVorbis.load_from_file(audio_path)
+		if stream:
+			$AudioStreamPlayer3D.stream = stream
+			$AudioStreamPlayer3D.play()
+			print("Playing audio.")
 		else:
-			print("Failed to parse JSON or not a dictionary")
+			print("Failed to load audio stream.")
 	else:
 		print("Request failed with code:", response_code)
