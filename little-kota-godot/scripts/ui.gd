@@ -25,4 +25,5 @@ func _on_send_message_pressed() -> void:
 
 func _on_clear_history_pressed() -> void:
 	$ResponseLabel.text = ""
+	ollama_api.system_prompt = $SystemPromptEdit.text
 	ollama_api.reset_chat_history()

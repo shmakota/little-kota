@@ -171,14 +171,27 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -129.0
+offset_left = -318.0
 offset_top = 5.0
-offset_right = 129.0
+offset_right = -60.0
 offset_bottom = 37.0
 grow_horizontal = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_2o6r5")
 text = "llama2-uncensored:7b"
 placeholder_text = "LLM Model"
+
+[node name="SystemPromptEdit" type="TextEdit" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -55.0
+offset_top = 5.0
+offset_right = 304.0
+offset_bottom = 37.0
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_2o6r5")
+placeholder_text = "System Prompt"
 
 [node name="SettingsPanel" type="Panel" parent="UI" node_paths=PackedStringArray("button")]
 layout_mode = 1
