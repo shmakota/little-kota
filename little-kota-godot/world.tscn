@@ -1,7 +1,8 @@
-[gd_scene load_steps=25 format=3 uid="uid://dwgu6kstovqdw"]
+[gd_scene load_steps=26 format=3 uid="uid://dwgu6kstovqdw"]
 
 [ext_resource type="Script" uid="uid://dh420dxdpyv4l" path="res://scripts/ui.gd" id="1_aqk2v"]
 [ext_resource type="Material" uid="uid://cs42ljwa01lsx" path="res://materials/debug_floor.tres" id="1_f3sb7"]
+[ext_resource type="Texture2D" uid="uid://cpp464cdmvdi7" path="res://textures/belfast_sunset_puresky_2k.exr" id="1_ikiii"]
 [ext_resource type="StyleBox" uid="uid://cfa0fvpfvpmyr" path="res://styles/button_disabled.tres" id="2_70uel"]
 [ext_resource type="Script" uid="uid://dpp6yx6nfjbv5" path="res://scripts/ollama_api.gd" id="3_aqk2v"]
 [ext_resource type="Script" uid="uid://dhdwv38vr0s53" path="res://scripts/settings_panel.gd" id="3_ioo17"]
@@ -18,12 +19,12 @@
 [ext_resource type="Script" uid="uid://bswnrl4rukbc1" path="res://addons/godot-py-elevenlabs/elevenlabs_request_server.gd" id="16_2u3nc"]
 [ext_resource type="Script" uid="uid://vsubxbuhu4bg" path="res://scripts/server_executor.gd" id="17_udxuc"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f3sb7"]
-sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cbp6q"]
+panorama = ExtResource("1_ikiii")
+energy_multiplier = 0.3
 
 [sub_resource type="Sky" id="Sky_fj7yv"]
-sky_material = SubResource("ProceduralSkyMaterial_f3sb7")
+sky_material = SubResource("PanoramaSkyMaterial_cbp6q")
 
 [sub_resource type="Environment" id="Environment_tlwt5"]
 background_mode = 2
