@@ -43,7 +43,9 @@ func update_physics_state(delta: float, state_machine_controller: StateMachineCo
 			animator.play("anim_library/walking")
 	
 	var next_position: Vector3 = navigation_agent.get_next_path_position()
-	var direction: Vector3 = (next_position - character_body.global_position).normalized()
+	var direction: Vector3 = (next_position - character_body.global_position)
+	direction.y = 0  # Remove vertical component
+	direction = direction.normalized()
 	var velocity: Vector3 = direction * speed
 	
 	character_body.velocity = velocity

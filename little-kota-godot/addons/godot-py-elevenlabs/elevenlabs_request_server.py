@@ -18,12 +18,16 @@ class AudioHandler(BaseHTTPRequestHandler):
 
             text_data = data.get("text", "")
             voice_id = data.get("voice_id", "")
+            api_key = data.get("api_key", "")
+
             if not text_data:
                 raise ValueError("Missing 'text' field")
             if not voice_id:
                 raise ValueError("Missing 'voice_id' field")
+            if not api_key:
+                raise ValueError("Missing 'api_key' field")
 
-            file_path = self.save_audio_file(text_data, voice_id)
+            file_path = self.save_audio_file(text_data, voice_id, api_key)
             if not file_path:
                 raise RuntimeError("Audio generation failed")
 
@@ -33,7 +37,7 @@ class AudioHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-Type", "audio/ogg")
             self.send_header("Content-Length", str(len(audio_data)))
-            self.send_header("Access-Control-Allow-Origin", "*")  # optional for Godot Web
+            self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(audio_data)
 
@@ -49,12 +53,12 @@ class AudioHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         return  # Silence HTTP logs
 
-    def save_audio_file(self, text_data, voice_id):
+    def save_audio_file(self, text_data, voice_id, api_key):
         url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
         headers = {
             "Accept": "audio/mpeg",
             "Content-Type": "application/json",
-            "xi-api-key": "6f78e3972ca802dc33f5ef30dc3190ca"
+            "xi-api-key": api_key
         }
         data = {
             "text": text_data,
@@ -70,7 +74,6 @@ class AudioHandler(BaseHTTPRequestHandler):
             print("Error from ElevenLabs:", response.text)
             return None
 
-        # Convert MP3 response to OGG and save
         mp3_audio = BytesIO(response.content)
         audio = AudioSegment.from_file(mp3_audio, format="mp3")
 
@@ -78,6 +81,7 @@ class AudioHandler(BaseHTTPRequestHandler):
         filename = f"audio/output_{int(time.time())}.ogg"
         audio.export(filename, format="ogg")
         return filename
+
 
 def run():
     server_address = ("", PORT)

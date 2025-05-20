@@ -95,6 +95,7 @@ func load_character_pck(path: String) -> void:
 	print("Prompt: " + model_prompt)
 
 	ui.get_node("SystemPromptEdit").text = model_prompt
+	ollama_api.system_prompt = model_prompt
 	ollama_api.reset_chat_history()
 
 	print("✅ Character instanced from PCK")
