@@ -33,4 +33,4 @@ const ElevenLabsVoices = {
 var wav_file_path: String = "/home/soda/.local/share/godot/app_userdata/little-kota-godot/player_dialogue.wav"
 var server_ip_address: String = "127.0.0.1"
 var elevenlabs_voice_id: String = ElevenLabsVoices["BRIAN"]
-var elevenlabs_api_key: String = ""
+var elevenlabs_api_key: String = "6f78e3972ca802dc33f5ef30dc3190ca"

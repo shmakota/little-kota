@@ -1,7 +1,7 @@
-[gd_scene load_steps=28 format=3 uid="uid://dwgu6kstovqdw"]
+[gd_scene load_steps=29 format=3 uid="uid://dwgu6kstovqdw"]
 
 [ext_resource type="Script" uid="uid://dh420dxdpyv4l" path="res://scripts/ui.gd" id="1_aqk2v"]
-[ext_resource type="Texture2D" uid="uid://dircbbbcquttx" path="res://textures/belfast_sunset_puresky_2k.exr" id="1_ikiii"]
+[ext_resource type="Texture2D" uid="uid://d17s63tpdm7vd" path="res://textures/belfast_sunset_puresky_2k.exr" id="1_ikiii"]
 [ext_resource type="StyleBox" uid="uid://cfa0fvpfvpmyr" path="res://styles/button_disabled.tres" id="2_70uel"]
 [ext_resource type="Script" uid="uid://dpp6yx6nfjbv5" path="res://scripts/ollama_api.gd" id="3_aqk2v"]
 [ext_resource type="Script" uid="uid://dhdwv38vr0s53" path="res://scripts/settings_panel.gd" id="3_ioo17"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://cywhj1yrnt6t1" path="res://textures/mic_off.svg" id="8_2o6r5"]
 [ext_resource type="FontVariation" uid="uid://6vmdc8qhv0j7" path="res://styles/ui_font.tres" id="8_2u3nc"]
 [ext_resource type="Script" uid="uid://cckvmwmouatal" path="res://scripts/recorder.gd" id="8_gbfbk"]
+[ext_resource type="Script" uid="uid://dfucyq2apfvum" path="res://set_camera_state_button.gd" id="8_wukud"]
 [ext_resource type="PackedScene" uid="uid://dssmqqclknldk" path="res://maps/debug_map.tscn" id="12_ikiii"]
 [ext_resource type="Script" uid="uid://d3p400dxexd0o" path="res://addons/shared_plugins/nodes/state_machine_controller.gd" id="13_cbp6q"]
 [ext_resource type="Script" uid="uid://bxdctw0dthkx7" path="res://addons/shared_plugins/nodes/states/moving_camera_state.gd" id="15_bc84e"]
@@ -124,6 +125,66 @@ theme_override_styles/hover = ExtResource("7_70uel")
 theme_override_styles/pressed = ExtResource("5_ic0uy")
 theme_override_styles/normal = ExtResource("6_2o6r5")
 text = "Send Message"
+
+[node name="SetCameraStateButton" type="Button" parent="UI" node_paths=PackedStringArray("state_machine_controller", "state")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 388.0
+offset_top = 151.0
+offset_right = 570.0
+offset_bottom = 187.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("8_2u3nc")
+theme_override_styles/disabled = ExtResource("2_70uel")
+theme_override_styles/hover = ExtResource("7_70uel")
+theme_override_styles/pressed = ExtResource("5_ic0uy")
+theme_override_styles/normal = ExtResource("6_2o6r5")
+text = "Overview"
+script = ExtResource("8_wukud")
+state_machine_controller = NodePath("../../Camera3D/StateMachineController")
+state = NodePath("../../Camera3D/StateMachineController/OverviewIdle")
+
+[node name="SetCameraStateButton2" type="Button" parent="UI" node_paths=PackedStringArray("state_machine_controller", "state")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 388.0
+offset_top = 193.0
+offset_right = 570.0
+offset_bottom = 229.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("8_2u3nc")
+theme_override_styles/disabled = ExtResource("2_70uel")
+theme_override_styles/hover = ExtResource("7_70uel")
+theme_override_styles/pressed = ExtResource("5_ic0uy")
+theme_override_styles/normal = ExtResource("6_2o6r5")
+text = "Closeup"
+script = ExtResource("8_wukud")
+state_machine_controller = NodePath("../../Camera3D/StateMachineController")
+state = NodePath("../../Camera3D/StateMachineController/CloseUpIdle")
+
+[node name="SetCameraStateButton3" type="Button" parent="UI" node_paths=PackedStringArray("state_machine_controller", "state")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 388.0
+offset_top = 234.0
+offset_right = 570.0
+offset_bottom = 270.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("8_2u3nc")
+theme_override_styles/disabled = ExtResource("2_70uel")
+theme_override_styles/hover = ExtResource("7_70uel")
+theme_override_styles/pressed = ExtResource("5_ic0uy")
+theme_override_styles/normal = ExtResource("6_2o6r5")
+text = "Control"
+script = ExtResource("8_wukud")
+state_machine_controller = NodePath("../../Camera3D/StateMachineController")
+state = NodePath("../../Camera3D/StateMachineController/MovingCameraState")
 
 [node name="ClearHistory" type="Button" parent="UI"]
 layout_mode = 1
@@ -428,6 +489,9 @@ autoforward = true
 script = ExtResource("17_udxuc")
 
 [connection signal="pressed" from="UI/SendMessage" to="UI" method="_on_send_message_pressed"]
+[connection signal="pressed" from="UI/SetCameraStateButton" to="UI/SetCameraStateButton" method="_on_pressed"]
+[connection signal="pressed" from="UI/SetCameraStateButton2" to="UI/SetCameraStateButton2" method="_on_pressed"]
+[connection signal="pressed" from="UI/SetCameraStateButton3" to="UI/SetCameraStateButton3" method="_on_pressed"]
 [connection signal="pressed" from="UI/ClearHistory" to="UI" method="_on_clear_history_pressed"]
 [connection signal="pressed" from="UI/SettingsPanel/ImportModel" to="ImportController" method="_on_import_model_pressed"]
 [connection signal="pressed" from="UI/SettingsPanel/ImportMap" to="ImportController" method="_on_import_map_pressed"]
