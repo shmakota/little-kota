@@ -4,6 +4,9 @@
 
 [resource]
 script = ExtResource("1_h7t7f")
-character_name = "Debug Man"
-character_description = "This is a character meant for debugging purposes only. They are kind and answer questions truthfully and as professional as possible."
+character_name = "Debug Dummy"
+character_prompt = ""
+character_scenario = ""
+character_world_info = ""
+character_personality = ""
 metadata/_custom_type_script = "uid://drhho16k056ki"

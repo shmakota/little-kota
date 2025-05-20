@@ -15,21 +15,23 @@ func send_text_request(text: String) -> void:
 	var url := "http://" + BaseGlobals.server_ip_address + ":6003/"
 	var json_data := {
 		"text": text,
-		"voice_id": BaseGlobals.elevenlabs_voice_id
+		"voice_id": BaseGlobals.elevenlabs_voice_id,
+		"api_key": BaseGlobals.elevenlabs_api_key  # ✅ Include API key here
 	}
 	var request := HTTPRequest.new()
 	add_child(request)
 	request.request_completed.connect(_on_request_completed)
-	
+
 	var err := request.request(
 		url,
 		["Content-Type: application/json", "Accept: application/json"],
 		HTTPClient.METHOD_POST,
 		JSON.stringify(json_data)
 	)
-	
+
 	if err != OK:
 		print("Failed to send request:", err)
+
 
 func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	print("Result:", result)

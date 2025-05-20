@@ -1,7 +1,7 @@
 [gd_scene load_steps=28 format=3 uid="uid://dwgu6kstovqdw"]
 
 [ext_resource type="Script" uid="uid://dh420dxdpyv4l" path="res://scripts/ui.gd" id="1_aqk2v"]
-[ext_resource type="Texture2D" uid="uid://ceuttd4mxlb55" path="res://textures/belfast_sunset_puresky_2k.exr" id="1_ikiii"]
+[ext_resource type="Texture2D" uid="uid://dircbbbcquttx" path="res://textures/belfast_sunset_puresky_2k.exr" id="1_ikiii"]
 [ext_resource type="StyleBox" uid="uid://cfa0fvpfvpmyr" path="res://styles/button_disabled.tres" id="2_70uel"]
 [ext_resource type="Script" uid="uid://dpp6yx6nfjbv5" path="res://scripts/ollama_api.gd" id="3_aqk2v"]
 [ext_resource type="Script" uid="uid://dhdwv38vr0s53" path="res://scripts/settings_panel.gd" id="3_ioo17"]
@@ -420,6 +420,7 @@ update_history = true
 [node name="ElevenlabsAPI" type="Node" parent="." node_paths=PackedStringArray("ollama_api")]
 script = ExtResource("16_2u3nc")
 ollama_api = NodePath("../OllamaAPI")
+autoforward = true
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="ElevenlabsAPI"]
 
