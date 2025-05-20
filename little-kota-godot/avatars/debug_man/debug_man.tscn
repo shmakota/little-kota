@@ -9,8 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://5cydp8q64gcb" path="res://avatars/debug_man/Idle(1)_0.png" id="6_6qsb3"]
 [ext_resource type="Script" uid="uid://c024pygoxlemn" path="res://addons/shared_plugins/nodes/states/wander_character_state.gd" id="6_jk8s4"]
 [ext_resource type="Texture2D" uid="uid://pkia58w65mv2" path="res://avatars/debug_man/Idle(1)_3.png" id="7_yxf1d"]
-[ext_resource type="Animation" uid="uid://c5hewblj0sp3t" path="res://avatars/debug_man/idle.res" id="8_27tds"]
-[ext_resource type="Animation" uid="uid://yh3lb5jf3g74" path="res://avatars/debug_man/walking.res" id="9_ivm65"]
+[ext_resource type="Animation" uid="uid://c8ed4dgrnmj1o" path="res://avatars/debug_man/idle.res" id="8_27tds"]
+[ext_resource type="Animation" uid="uid://b0lndqdrw3n5u" path="res://avatars/debug_man/walking.res" id="9_ivm65"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_681hm"]
 resource_name = "Ch32_body"
@@ -228,13 +228,12 @@ metadata/_custom_type_script = "uid://d3p400dxexd0o"
 script = ExtResource("4_7dfkq")
 do_random_state = true
 random_chance = 500
-random_state = NodePath("")
+random_state = NodePath("../WanderState")
 metadata/_custom_type_script = "uid://cct147j6k6s4x"
 
-[node name="PathfindState" type="Node" parent="StateMachineController" node_paths=PackedStringArray("target_node", "fallback_state")]
+[node name="PathfindState" type="Node" parent="StateMachineController" node_paths=PackedStringArray("target_node")]
 script = ExtResource("5_1q7pd")
 target_node = NodePath("Marker3D")
-fallback_state = NodePath("")
 metadata/_custom_type_script = "uid://bjd6l0e2q8455"
 
 [node name="Marker3D" type="Marker3D" parent="StateMachineController/PathfindState"]
@@ -242,8 +241,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15)
 
 [node name="WanderState" type="Node" parent="StateMachineController" node_paths=PackedStringArray("pathfind_state", "fallback_state")]
 script = ExtResource("6_jk8s4")
-pathfind_state = NodePath("")
-fallback_state = NodePath("")
+pathfind_state = NodePath("../PathfindState")
+fallback_state = NodePath("../IdleState")
 metadata/_custom_type_script = "uid://c024pygoxlemn"
 
 [node name="Marker3D" type="Marker3D" parent="StateMachineController/WanderState"]
