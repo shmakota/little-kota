@@ -34,6 +34,7 @@ func reset_chat_history():
 @onready var validation_request: HTTPRequest
 
 func _ready():
+	BaseGlobals.ollama_api_node = self
 	http_request = HTTPRequest.new()
 	validation_request = HTTPRequest.new()
 	add_child(http_request)

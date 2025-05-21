@@ -4,6 +4,7 @@ class_name PathfindState
 
 @export var target_node: Node3D  # The node to move toward
 @export var speed: float = 5.0   # Movement speed
+@export var animation_name : String = "anim_library/walking"
 
 var navigation_agent: NavigationAgent3D
 var character_body: CharacterBody3D
@@ -39,8 +40,8 @@ func update_physics_state(delta: float, state_machine_controller: StateMachineCo
 	
 	var animator: AnimationPlayer = state_machine_controller.get_parent().playermodel.get_child(0).get_node_or_null("AnimationPlayer")
 	if animator != null:
-		if not animator.is_playing() or animator.current_animation != "anim_library/walking":
-			animator.play("anim_library/walking")
+		if not animator.is_playing() or animator.current_animation != animation_name:
+			animator.play(animation_name)
 	
 	var next_position: Vector3 = navigation_agent.get_next_path_position()
 	var direction: Vector3 = (next_position - character_body.global_position)

@@ -1,9 +1,8 @@
-[gd_scene load_steps=20 format=4 uid="uid://b83roft3o6umf"]
+[gd_scene load_steps=19 format=4 uid="uid://b83roft3o6umf"]
 
 [ext_resource type="Script" uid="uid://dsu2u41afnhab" path="res://scripts/chatting_character.gd" id="1_shuff"]
 [ext_resource type="Resource" uid="uid://dxbemqr53btih" path="res://resources/character_data/debug_character.tres" id="2_scqfw"]
 [ext_resource type="Script" uid="uid://d3p400dxexd0o" path="res://addons/shared_plugins/nodes/state_machine_controller.gd" id="3_shuff"]
-[ext_resource type="Script" uid="uid://cct147j6k6s4x" path="res://addons/shared_plugins/nodes/states/idle_character_state.gd" id="4_7dfkq"]
 [ext_resource type="Script" uid="uid://bjd6l0e2q8455" path="res://addons/shared_plugins/nodes/states/pathfind_character_state.gd" id="5_1q7pd"]
 [ext_resource type="Script" uid="uid://b2t8i3ap4cjx0" path="res://addons/shared_plugins/nodes/health_node.gd" id="5_ekfsf"]
 [ext_resource type="Script" uid="uid://bp4msl55jkspv" path="res://addons/shared_plugins/nodes/random_state_trigger.gd" id="5_f8836"]
@@ -229,10 +228,10 @@ verbose = true
 metadata/_custom_type_script = "uid://d3p400dxexd0o"
 
 [node name="IdleState" type="Node" parent="StateMachineController" node_paths=PackedStringArray("fallback_state", "state_triggers")]
-script = ExtResource("4_7dfkq")
+script = ExtResource("7_1q7pd")
 fallback_state = NodePath(".")
 state_triggers = [NodePath("RandomStateTrigger")]
-metadata/_custom_type_script = "uid://cct147j6k6s4x"
+metadata/_custom_type_script = "uid://62l1aygef0u6"
 
 [node name="RandomStateTrigger" type="Node" parent="StateMachineController/IdleState"]
 script = ExtResource("5_f8836")
