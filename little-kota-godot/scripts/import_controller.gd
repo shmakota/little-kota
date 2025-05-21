@@ -82,11 +82,14 @@ func load_character_pck(path: String) -> void:
 
 	var instance = scene.instantiate()
 	model_root.add_child(instance)
-
-	var model_name = instance.character_data.character_name
-	var model_desc = instance.character_data.character_scenario
-	var model_personality = instance.character_data.character_personality
-	var model_prompt = instance.character_data.character_prompt
+	
+	var char_data : ChattingCharacterData = instance.character_data
+	var model_name = char_data.character_name
+	var model_desc = char_data.character_scenario
+	var model_personality = char_data.character_personality
+	var model_prompt = char_data.character_prompt
+	var voice_id = char_data.elevenlabs_voice
+	BaseGlobals.elevenlabs_voice_id = BaseGlobals.ElevenLabsVoices[voice_id]
 
 	print("[Loaded Avatar]")
 	print("Name: " + model_name)

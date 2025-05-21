@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://dwgu6kstovqdw"]
+[gd_scene load_steps=30 format=3 uid="uid://dwgu6kstovqdw"]
 
 [ext_resource type="Script" uid="uid://dh420dxdpyv4l" path="res://scripts/ui.gd" id="1_aqk2v"]
 [ext_resource type="Texture2D" uid="uid://d17s63tpdm7vd" path="res://textures/belfast_sunset_puresky_2k.exr" id="1_ikiii"]
@@ -22,6 +22,7 @@
 [ext_resource type="Script" uid="uid://bswnrl4rukbc1" path="res://addons/godot-py-elevenlabs/elevenlabs_request_server.gd" id="16_2u3nc"]
 [ext_resource type="Script" uid="uid://vsubxbuhu4bg" path="res://scripts/server_executor.gd" id="17_udxuc"]
 [ext_resource type="Script" uid="uid://b3o8e77kix4iu" path="res://addons/shared_plugins/nodes/states/idle_camera_state.gd" id="20_26xuy"]
+[ext_resource type="PackedScene" uid="uid://b83roft3o6umf" path="res://avatars/debug_man/debug_man.tscn" id="23_il2jm"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cbp6q"]
 panorama = ExtResource("1_ikiii")
@@ -487,6 +488,18 @@ autoforward = true
 
 [node name="ServerExecutor" type="Node" parent="."]
 script = ExtResource("17_udxuc")
+
+[node name="Debug Dummy" parent="." instance=ExtResource("23_il2jm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.70186, 0, 1.87323)
+
+[node name="Debug Dummy2" parent="." instance=ExtResource("23_il2jm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.248271, 0, 2.68331)
+
+[node name="Debug Dummy3" parent="." instance=ExtResource("23_il2jm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9687, 0, 2.12156)
+
+[node name="Debug Dummy4" parent="." instance=ExtResource("23_il2jm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.039288, 0, -0.213585)
 
 [connection signal="pressed" from="UI/SendMessage" to="UI" method="_on_send_message_pressed"]
 [connection signal="pressed" from="UI/SetCameraStateButton" to="UI/SetCameraStateButton" method="_on_pressed"]

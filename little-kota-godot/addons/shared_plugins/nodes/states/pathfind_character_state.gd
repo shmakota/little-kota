@@ -48,6 +48,7 @@ func update_physics_state(delta: float, state_machine_controller: StateMachineCo
 	direction = direction.normalized()
 	var velocity: Vector3 = direction * speed
 	
+	
 	character_body.velocity = velocity
 	character_body.move_and_slide()
 	
