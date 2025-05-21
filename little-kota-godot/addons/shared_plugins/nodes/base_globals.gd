@@ -34,3 +34,4 @@ var wav_file_path: String = "/home/soda/.local/share/godot/app_userdata/little-k
 var server_ip_address: String = "127.0.0.1"
 var elevenlabs_voice_id: String = ElevenLabsVoices["BRIAN"]
 var elevenlabs_api_key: String = "6f78e3972ca802dc33f5ef30dc3190ca"
+var ollama_api_node : Node

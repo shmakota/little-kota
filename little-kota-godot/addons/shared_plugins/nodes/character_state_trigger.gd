@@ -5,7 +5,7 @@ class_name CharacterStateTrigger
 
 @export var trigger_state : CharacterState
 
-enum TriggerResults{FAILURE, SUCCESS}
+enum TriggerResults{FAILURE, SUCCESS, NULL}
 
 func update_physics_state_trigger(delta : float, state_machine_controller : StateMachineController) -> TriggerResults:
 	return TriggerResults.SUCCESS

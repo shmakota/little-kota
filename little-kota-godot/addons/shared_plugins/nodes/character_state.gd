@@ -33,6 +33,8 @@ func handle_triggers(delta : float, state_machine_controller : StateMachineContr
 			state_machine_controller.set_state(trigger.trigger_state)
 		elif RESULT == trigger.TriggerResults.FAILURE:
 			state_machine_controller.set_state(fallback_state)
+		elif RESULT == trigger.TriggerResults.NULL:
+			pass
 
 # Update function that can be overridden by specific states.
 ##Updated on frame (not currently used)
