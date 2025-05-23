@@ -36,6 +36,10 @@ project/assembly_name="little-kota-godot"
 
 enabled=PackedStringArray("res://addons/shared_plugins/plugin.cfg")
 
+[global_group]
+
+characters=""
+
 [gui]
 
 theme/custom="uid://cq7m8b82el8pt"

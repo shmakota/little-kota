@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bwxgtdaxl1w7y"
-path="res://.godot/imported/Idle(1).fbx-4b802e1cf79e8e1f61e0d23ce06e641f.scn"
+uid="uid://bgji5v3evfypv"
+path="res://.godot/imported/Talking.fbx-59f12e296b1278f3fc90eaca283f2184.scn"
 
 [deps]
 
-source_file="res://avatars/debug_man/Idle(1).fbx"
-dest_files=["res://.godot/imported/Idle(1).fbx-4b802e1cf79e8e1f61e0d23ce06e641f.scn"]
+source_file="res://avatars/debug_man/Talking.fbx"
+dest_files=["res://.godot/imported/Talking.fbx-59f12e296b1278f3fc90eaca283f2184.scn"]
 
 [params]
 
@@ -37,9 +37,9 @@ _subresources={
 "animations": {
 "mixamo_com": {
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://avatars/debug_man/idle.res",
+"save_to_file/fallback_path": "res://avatars/debug_man/talking.res",
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "uid://c8ed4dgrnmj1o",
+"save_to_file/path": "uid://bagqu00ry4fpr",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,

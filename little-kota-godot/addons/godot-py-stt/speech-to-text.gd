@@ -62,6 +62,8 @@ func ask_llm_and_display(text: String) -> void:
 	# Send recognized text to LLM and wait for response
 	print("Sending to LLM: ", text)
 	update_label.text = text
-	llm_api.send_chat_request(ui.get_node("UserEdit").text, text)
+	#llm_api.send_chat_request(ui.get_node("UserEdit").text, text)
+	ui.get_node("MessageEdit").text = text
+	ui.do_think()
 	await(llm_api.received_api_response)
 	update_label.text = llm_api.last_response

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dssmqqclknldk"]
+[gd_scene load_steps=4 format=3 uid="uid://dssmqqclknldk"]
 
 [ext_resource type="Material" uid="uid://cs42ljwa01lsx" path="res://materials/debug_floor.tres" id="1_yhms4"]
+[ext_resource type="Script" uid="uid://0dfxdalebjqy" path="res://scripts/spatial_descriptor.gd" id="2_phgvc"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_2u3nc"]
 vertices = PackedVector3Array(-2.5, 1, -2.5, -2.5, 1, 2.5, 2.5, 1, 2.5, 2.5, 1, -2.5)
@@ -16,3 +17,16 @@ navigation_mesh = SubResource("NavigationMesh_2u3nc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 size = Vector3(6, 0.3, 6)
 material = ExtResource("1_yhms4")
+
+[node name="SpatialDescriptor" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+script = ExtResource("2_phgvc")
+space_type = 1
+space_name = "Development Platform"
+space_description = "Checkered opaque platform, above an infinite sky void."
+
+[node name="SpatialDescriptor2" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.77884, 0.756255, 0)
+script = ExtResource("2_phgvc")
+space_name = "Divine Development Light"
+space_description = "the divine light of a developer"

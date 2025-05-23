@@ -6,7 +6,6 @@ class_name StateMachineController
 signal state_changed
 
 @export var current_state : CharacterState
-@export var state_node : Node
 @export var verbose : bool
 
 func _ready() -> void:
