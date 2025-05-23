@@ -1,5 +1,5 @@
 extends CharacterState
-## Stand still and animate
+## Stand still and animate. DEPRECATED. CAN STILL BE USED BUT UNNECESSARY
 class_name IdleState
 
 # Called when this state is entered

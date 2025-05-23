@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://cywhj1yrnt6t1" path="res://textures/mic_off.svg" id="8_2o6r5"]
 [ext_resource type="FontVariation" uid="uid://6vmdc8qhv0j7" path="res://styles/ui_font.tres" id="8_2u3nc"]
 [ext_resource type="Script" uid="uid://cckvmwmouatal" path="res://scripts/recorder.gd" id="8_gbfbk"]
-[ext_resource type="Script" uid="uid://dfucyq2apfvum" path="res://set_camera_state_button.gd" id="8_wukud"]
+[ext_resource type="Script" uid="uid://dfucyq2apfvum" path="res://scripts/set_camera_state_button.gd" id="8_wukud"]
 [ext_resource type="PackedScene" uid="uid://dssmqqclknldk" path="res://maps/debug_map.tscn" id="12_ikiii"]
 [ext_resource type="Script" uid="uid://d3p400dxexd0o" path="res://addons/shared_plugins/nodes/state_machine_controller.gd" id="13_cbp6q"]
 [ext_resource type="Script" uid="uid://bxdctw0dthkx7" path="res://addons/shared_plugins/nodes/states/moving_camera_state.gd" id="15_bc84e"]
@@ -62,7 +62,7 @@ directional_shadow_max_distance = 400.0
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_tlwt5")
 
-[node name="UI" type="Control" parent="." node_paths=PackedStringArray("ollama_api")]
+[node name="UI" type="Control" parent="." node_paths=PackedStringArray("ollama_api", "camera")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -71,8 +71,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_aqk2v")
 ollama_api = NodePath("../OllamaAPI")
+camera = NodePath("../Camera3D")
+use_closest_chatting_character = true
 
 [node name="ResponseLabel" type="RichTextLabel" parent="UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -476,12 +479,13 @@ use_native_dialog = true
 
 [node name="OllamaAPI" type="Node" parent="."]
 script = ExtResource("3_aqk2v")
+ollama_model_name = "gemma3:4b"
+system_prompt = "test"
 update_history = true
 
 [node name="ElevenlabsAPI" type="Node" parent="." node_paths=PackedStringArray("ollama_api")]
 script = ExtResource("16_2u3nc")
 ollama_api = NodePath("../OllamaAPI")
-autoforward = true
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="ElevenlabsAPI"]
 

@@ -89,7 +89,8 @@ func load_character_pck(path: String) -> void:
 	var model_personality = char_data.character_personality
 	var model_prompt = char_data.character_prompt
 	var voice_id = char_data.elevenlabs_voice
-	BaseGlobals.elevenlabs_voice_id = BaseGlobals.ElevenLabsVoices[voice_id]
+	if voice_id:
+		BaseGlobals.elevenlabs_voice_id = BaseGlobals.ElevenLabsVoices[voice_id]
 
 	print("[Loaded Avatar]")
 	print("Name: " + model_name)

@@ -5,17 +5,19 @@ class_name ElevenlabsAPI
 @export var autoforward : bool
 
 func _ready() -> void:
+	if ollama_api == null:
+		ollama_api = BaseGlobals.ollama_api_node
 	if autoforward:
 		ollama_api.received_api_response.connect(forward_api_response)
 
 func forward_api_response():
 	send_text_request(ollama_api.last_response)
 
-func send_text_request(text: String) -> void:
+func send_text_request(text: String, voice_id : String = BaseGlobals.elevenlabs_voice_id) -> void:
 	var url := "http://" + BaseGlobals.server_ip_address + ":6003/"
 	var json_data := {
 		"text": text,
-		"voice_id": BaseGlobals.elevenlabs_voice_id,
+		"voice_id": voice_id,
 		"api_key": BaseGlobals.elevenlabs_api_key  # ✅ Include API key here
 	}
 	var request := HTTPRequest.new()
